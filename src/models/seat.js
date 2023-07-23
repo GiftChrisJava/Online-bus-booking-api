@@ -1,3 +1,5 @@
+const { DataTypes } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   const Seat = sequelize.define(
     "seat",

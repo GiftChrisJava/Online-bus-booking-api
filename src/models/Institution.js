@@ -1,8 +1,10 @@
+const { DataTypes } = require("sequelize");
+
 // get the super class
 const Traveler = require("./Traveler");
 
 module.exports = (sequelize, DataTypes) => {
-  const Institution = Traveler.discriminator(
+  const Institution = sequelize.define(
     "institution",
     {
       name: {
@@ -30,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
+
+  Institution.prototype.__proto__ = Traveler.prototype;
 
   return Institution;
 };

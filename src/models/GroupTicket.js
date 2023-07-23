@@ -2,7 +2,7 @@
 const Ticket = require("./Ticket");
 
 module.exports = (sequelize, DataTypes) => {
-  const GroupTicket = Ticket.discriminator(
+  const GroupTicket = sequelize.define(
     "groupTicket",
     {
       groupName: {
@@ -19,5 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  GroupTicket.prototype.__proto__ = Ticket.prototype;
   return GroupTicket;
 };
