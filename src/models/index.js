@@ -43,8 +43,8 @@ Admin.hasMany(Account, { onDelete: "CASCADE", foreignKey: "adminId" });
 Account.belongsTo(Admin, { foreignKey: "adminId" });
 
 // a traveler can choose multiple seats
-Traveler.belongsToMany(Seat, { through: "TravelerSeat" });
-Seat.belongsToMany(Traveler, { through: "TravelerSeat" });
+Traveler.belongsToMany(Seat, { through: "travelerseat" });
+Seat.belongsToMany(Traveler, { through: "travelerseat" });
 
 // traveller can book many tickets
 Traveler.hasMany(Ticket, { onDelete: "CASCADE", foreignKey: "travelerId" });
@@ -67,21 +67,21 @@ Bus.hasMany(GroupTicket, { onDelete: "CASCADE", foreignKey: "busId" });
 
 // Payment can be made for one or more tickets
 Payment.belongsToMany(Ticket, {
-  through: "TicketPayment",
+  through: "ticketpayment",
   onDelete: "CASCADE",
 });
 Ticket.belongsToMany(Payment, {
-  through: "TicketPayment",
+  through: "ticketpayment",
   onDelete: "CASCADE",
 });
 
 // Payment can be made for one or more group tickets
 Payment.belongsToMany(GroupTicket, {
-  through: "GroupTicketPayment",
+  through: "groupticketpayment",
   onDelete: "CASCADE",
 });
 GroupTicket.belongsToMany(Payment, {
-  through: "GroupTicketPayment",
+  through: "groupticketpayment",
   onDelete: "CASCADE",
 });
 
