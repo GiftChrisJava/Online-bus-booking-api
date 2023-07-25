@@ -4,6 +4,7 @@ const app = express();
 
 // get the routes
 const accountRoutes = require("./src/routes/account.routes");
+const institutionAccountRoutes = require("./src/routes/institutionAcc.routes");
 
 // middleware
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/account", accountRoutes);
+app.use("/institutionAcc/", institutionAccountRoutes);
 
 // define port
 const PORT = process.env.PORT || 8080;
