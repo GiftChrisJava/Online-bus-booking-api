@@ -4,15 +4,11 @@ const { DataTypes } = require("sequelize");
 const Traveler = require("./Traveler");
 
 module.exports = (sequelize, DataTypes) => {
-  const Institution = sequelize.define(
-    "institution",
+  const InstitutionAccount = sequelize.define(
+    "institutionaccount",
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
-      numberOfPeople: {
-        type: DataTypes.INTEGER,
         allowNull: false,
       },
       emailOfInstitution: {
@@ -31,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "traveler",
       },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       timestamps: false,
@@ -39,5 +39,5 @@ module.exports = (sequelize, DataTypes) => {
 
   Institution.prototype.__proto__ = Traveler.prototype;
 
-  return Institution;
+  return InstitutionAccount;
 };

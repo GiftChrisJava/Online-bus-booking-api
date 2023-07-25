@@ -32,6 +32,10 @@ const Seat = require("../models/seat")(sequelize, DataTypes);
 const Ticket = require("../models/Ticket")(sequelize, DataTypes);
 const Traveler = require("../models/Traveler")(sequelize, DataTypes);
 const Account = require("../models/Account")(sequelize, DataTypes);
+const InstitutionAccount = require("../models/InstitutionAccount")(
+  sequelize,
+  DataTypes
+);
 
 // Associations
 // A traveller has many accounts
@@ -41,6 +45,8 @@ Account.belongsTo(Traveler, { foreignKey: "travelerId" });
 // admin has accounts
 Admin.hasMany(Account, { onDelete: "CASCADE", foreignKey: "adminId" });
 Account.belongsTo(Admin, { foreignKey: "adminId" });
+
+InstitutionAccount.belongsTo(Institution, { foreignKey: "institutionId" });
 
 // a traveler can choose multiple seats
 Traveler.belongsToMany(Seat, { through: "travelerseat" });
@@ -94,6 +100,7 @@ db.Payment = Payment;
 db.Seat = Seat;
 db.Ticket = Ticket;
 db.Traveler = Traveler;
+db.InstitutionAccount = InstitutionAccount;
 
 // run database
 db.sequelize.sync({ force: false }).then(() => {

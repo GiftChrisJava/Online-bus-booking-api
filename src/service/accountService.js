@@ -44,7 +44,7 @@ async function createAdminAccount(
       return { error: "Username already exists." };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create an admin account in the database
     const adminAccount = await UserAccount.create({
@@ -133,8 +133,40 @@ async function createTravelerAccount(
   }
 }
 
+// admin login
+async function adminLogin(firstName, lastName, email, password) {
+  try {
+    // find the admin account
+    const adminAccount = await UserAccount.findOne({
+      where: { email, firstName, lastName },
+    });
+
+    if (!adminAccount) {
+      return {
+        error: "Adminstrator  Not found",
+      };
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      adminAccount.password
+    );
+
+    if (!isPasswordValid) {
+      return { error: "Invalid password!!" };
+    }
+
+    const token = generateToken(adminAccount);
+
+    return { token, adminAccount };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
 module.exports = {
   generateToken,
   createAdminAccount,
   createTravelerAccount,
+  adminLogin,
 };
