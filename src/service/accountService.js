@@ -164,9 +164,37 @@ async function adminLogin(firstName, lastName, email, password) {
   }
 }
 
+// traveler login
+async function travelerLogin(email, password) {
+  try {
+    // find traveler with this email
+    const travelerAccount = await UserAccount.findOne({ where: { email } });
+
+    if (!travelerAccount) {
+      return { error: "Email provided is not registered with our system" };
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      travelerAccount.password
+    );
+
+    if (!isPasswordValid) {
+      return { error: "Invalid password" };
+    }
+
+    const token = generateToken(travelerAccount);
+
+    return { token, travelerAccount };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
 module.exports = {
   generateToken,
   createAdminAccount,
   createTravelerAccount,
   adminLogin,
+  travelerLogin,
 };

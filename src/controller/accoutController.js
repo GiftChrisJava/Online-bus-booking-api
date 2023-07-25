@@ -51,6 +51,49 @@ const AccoutController = {
       return res.status(500).json({ error: "Internal server error." });
     }
   },
+
+  // admin login
+  adminLogin: async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+
+    try {
+      const result = await AccountService.adminLogin(
+        firstName,
+        lastName,
+        email,
+        password
+      );
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res
+        .status(201)
+        .json({ token: result.token, adminAccount: result.adminAccount });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // traveler login
+  travelerLogin: async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      const result = await AccountService.travelerLogin(email, password);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      res
+        .status(201)
+        .json({ token: result.token, travelerAccount: result.travelerAccount });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = AccoutController;
