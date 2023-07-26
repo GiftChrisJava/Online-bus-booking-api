@@ -36,15 +36,14 @@ const InstitutionAccount = require("../models/InstitutionAccount")(
   sequelize,
   DataTypes
 );
+const Location = require("../models/Location")(sequelize, DataTypes);
 
 // Associations
-// A traveller has many accounts
-Traveler.hasMany(Account, { onDelete: "CASCADE", foreignKey: "travelerId" });
+// A traveller has an account
 Account.belongsTo(Traveler, { foreignKey: "travelerId" });
 
-// admin has accounts
-Admin.hasMany(Account, { onDelete: "CASCADE", foreignKey: "adminId" });
-Account.belongsTo(Admin, { foreignKey: "adminId" });
+// admin has an account
+Account.belongsTo(Admin, { onDelete: "CASCADE", foreignKey: "adminId" });
 
 InstitutionAccount.belongsTo(Institution, { foreignKey: "institutionId" });
 
@@ -70,6 +69,10 @@ Bus.hasMany(Ticket, { onDelete: "CASCADE", foreignKey: "busId" });
 // A group ticket also belongs to a bus
 GroupTicket.belongsTo(Bus, { foreignKey: "busId" });
 Bus.hasMany(GroupTicket, { onDelete: "CASCADE", foreignKey: "busId" });
+
+// A bus has several locations to travel
+Location.belongsTo(Bus, { foreignKey: "busId" });
+Bus.hasMany(Location, { onDelete: "CASCADE", foreignKey: "busId" });
 
 // Payment can be made for one or more tickets
 Payment.belongsToMany(Ticket, {
@@ -101,9 +104,10 @@ db.Seat = Seat;
 db.Ticket = Ticket;
 db.Traveler = Traveler;
 db.InstitutionAccount = InstitutionAccount;
+db.Location = Location;
 
 // run database
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   console.log("re-sync done...");
 });
 

@@ -7,21 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      departureLocation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      destinationLocation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      routeToTake: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      departureTime: {
-        type: DataTypes.DATE,
-        allowNull: false,
+      hasRoute: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       capacity: {
         type: DataTypes.INTEGER,
