@@ -103,7 +103,7 @@ db.Traveler = Traveler;
 db.InstitutionAccount = InstitutionAccount;
 
 // run database
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   console.log("re-sync done...");
 });
 

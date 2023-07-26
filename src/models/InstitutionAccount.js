@@ -37,7 +37,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Institution.prototype.__proto__ = Traveler.prototype;
-
   return InstitutionAccount;
 };

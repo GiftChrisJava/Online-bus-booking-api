@@ -54,15 +54,10 @@ const AccoutController = {
 
   // admin login
   adminLogin: async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-      const result = await AccountService.adminLogin(
-        firstName,
-        lastName,
-        email,
-        password
-      );
+      const result = await AccountService.adminLogin(email, password);
 
       if (result.error) {
         return res.status(409).json({ error: result.error });

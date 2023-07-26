@@ -134,11 +134,11 @@ async function createTravelerAccount(
 }
 
 // admin login
-async function adminLogin(firstName, lastName, email, password) {
+async function adminLogin(email, password) {
   try {
     // find the admin account
     const adminAccount = await UserAccount.findOne({
-      where: { email, firstName, lastName },
+      where: { email },
     });
 
     if (!adminAccount) {

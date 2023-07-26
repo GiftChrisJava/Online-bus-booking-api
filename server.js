@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/account", accountRoutes);
-app.use("/institutionAcc/", institutionAccountRoutes);
+app.use("/institutionAcc", institutionAccountRoutes);
 
 // define port
 const PORT = process.env.PORT || 8080;

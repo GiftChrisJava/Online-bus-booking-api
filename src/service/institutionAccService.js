@@ -38,6 +38,14 @@ async function createInstitutionAccount(
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
+    // create an institution
+    const institution = await entities.Institution.create({
+      name,
+      emailOfInstitution,
+      contactOfInstitution,
+      typeOfInstitution,
+    });
+
     // register an institution
     const institutionAccount = await InstitutionAccount.create({
       name,
@@ -45,6 +53,7 @@ async function createInstitutionAccount(
       contactOfInstitution,
       typeOfInstitution,
       password: hashedPassword,
+      institutionId: institution.id,
     });
 
     const token = generateToken(institutionAccount);

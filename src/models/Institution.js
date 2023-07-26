@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       numberOfPeople: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        defaultValue: 0,
       },
       emailOfInstitution: {
         type: DataTypes.STRING,
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Institution.prototype.__proto__ = Traveler.prototype;
+  // Institution.prototype.__proto__ = Traveler.prototype;
 
   return Institution;
 };
