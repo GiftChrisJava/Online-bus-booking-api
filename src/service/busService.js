@@ -10,7 +10,7 @@ async function createBus(nameOfBus, capacity) {
       NumberOfFreeSeats: capacity,
     });
 
-    return bus;
+    return { bus };
   } catch (error) {
     throw new Error("Something went wrong");
   }
@@ -22,13 +22,13 @@ async function updateBusDetails(busId, busDetails) {
     const bus = await Bus.findByPk(busId);
 
     if (!bus) {
-      throw new Error("Bus not found");
+      return { error: "Bus not found" };
     }
 
     // update
     await bus.update(busDetails);
 
-    return bus;
+    return { bus };
   } catch (error) {
     throw new Error("Something went wrong");
   }
@@ -40,12 +40,12 @@ async function deleteBus(busId) {
     const bus = await Bus.findByPk(busId);
 
     if (!bus) {
-      throw new Error("Bus not found");
+      return { error: "Bus not found" };
     }
 
     await bus.destroy();
 
-    return "Bus removed successfuly";
+    return { msg: "Bus removed successfuly" };
   } catch (error) {
     throw new Error("Something went wrong");
   }
@@ -57,10 +57,10 @@ async function getBus(busId) {
     const bus = await Bus.findByPk(busId);
 
     if (!bus) {
-      throw new Error("Bus not found");
+      return { error: "Bus not found" };
     }
 
-    return bus;
+    return { bus };
   } catch (error) {
     throw new Error("Something went wrong");
   }
@@ -71,8 +71,36 @@ async function getBuses() {
   try {
     const buses = await Bus.findAll();
 
-    return courses;
+    return { buses };
   } catch (error) {
     throw new Error("Something went wrong");
   }
 }
+
+// get bus location details
+async function getBusLocationDetails(busId) {
+  try {
+    // find a location with the specified bus Id
+    const bus = await findOne({
+      where: { busId },
+      include: Location,
+    });
+
+    if (!bus) {
+      return { error: "Bus not found: Location" };
+    }
+
+    return { bus };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+module.exports = {
+  getBus,
+  getBusLocationDetails,
+  getBuses,
+  deleteBus,
+  createBus,
+  updateBusDetails,
+};

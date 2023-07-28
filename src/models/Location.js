@@ -21,15 +21,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       hoursToDestination: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
-      DepartureTime: {
+      departureTime: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       route: {
         type: DataTypes.STRING,
-        defaultValue: false,
       },
       cost: {
         type: DataTypes.INTEGER,
