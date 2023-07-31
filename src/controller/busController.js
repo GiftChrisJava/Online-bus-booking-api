@@ -105,3 +105,5 @@ const busController = {
     }
   },
 };
+
+module.exports = busController;

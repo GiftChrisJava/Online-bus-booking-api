@@ -1,6 +1,5 @@
 const entities = require("../models");
 const Location = entities.Location;
-const Bus = entities.Bus;
 
 // add bus travelling details
 async function createLocation(
@@ -128,3 +127,11 @@ async function deleteLocation(locationId) {
     throw new Error("Something went wrong");
   }
 }
+
+module.exports = {
+  createLocation,
+  updateLocation,
+  getBusRoutes,
+  getLocations,
+  deleteLocation,
+};
