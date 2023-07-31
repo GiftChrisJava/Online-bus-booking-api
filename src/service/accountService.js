@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../config/authConfig");
 const entities = require("../models");
+const emailSender = require("../utils/email");
+
 const UserAccount = entities.Account;
 const Admin = entities.Admin;
 const Traveler = entities.Traveler;
@@ -56,6 +58,9 @@ async function createAdminAccount(
       email: admin.email,
       adminId: admin.id,
     });
+
+    // send a welcoming email
+    await emailSender.sendWelcomeEmail(adminAccount.email);
 
     const token = this.generateToken(adminAccount);
 
@@ -125,6 +130,9 @@ async function createTravelerAccount(
 
     // update account status
     await traveler.update({ hasAccount: true });
+
+    // send a welcoming email
+    await emailSender.sendWelcomeEmail(travelerAccount.email);
 
     const token = generateToken(travelerAccount);
     return { token, travelerAccount };
