@@ -1,20 +1,21 @@
 const nodemailer = require("nodemailer");
+const { EMAIL, PASSWORD } = require("./env");
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  service: "gmail",
   auth: {
-    user: "bed-com-09-19@unima.ac.mw",
-    pass: "giftI4CU",
+    user: EMAIL,
+    pass: PASSWORD,
   },
 });
 
 const sendWelcomeEmail = async (email) => {
   try {
     await transporter.sendMail({
-      from: "bed-com-09-19@unima.ac.mw",
+      from: EMAIL,
       to: email,
       subject: "Welcome to Simpoft Bus booking System",
-      text: "Ticket information will be sent to this email after ticket purchase is done",
+      text: "Thank you for each and every help you offered to me last semi. I appriate you it a lot not matter how small it seemed. AM CODING A BUS BOOKING SYSTEM AND I WANT IT TO BE SENDING EMAILS TO TRAVELERS",
     });
   } catch (error) {
     console.error("Error sending Welcome email : ", error);

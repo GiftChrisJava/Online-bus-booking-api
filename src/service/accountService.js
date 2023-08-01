@@ -172,6 +172,25 @@ async function adminLogin(email, password) {
   }
 }
 
+// send emails
+async function sendEmails() {
+  try {
+    const travellers = await Traveler.findAll();
+
+    const travellerEmails = travellers.map((traveler) => {
+      emailSender.sendWelcomeEmail(traveler.email);
+    });
+
+    if (!travelerAccount) {
+      return { error: "Something went wrong when sending mail" };
+    }
+
+    return { msg: "Emails sent" };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
 // traveler login
 async function travelerLogin(email, password) {
   try {
@@ -205,4 +224,5 @@ module.exports = {
   createTravelerAccount,
   adminLogin,
   travelerLogin,
+  sendEmails,
 };
