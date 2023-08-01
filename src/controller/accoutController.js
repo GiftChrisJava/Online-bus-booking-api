@@ -71,6 +71,21 @@ const AccoutController = {
     }
   },
 
+  // send emails
+  sendEmailsToTravelers: async (req, res) => {
+    try {
+      const result = await AccountService.sendEmails();
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      res.status(200).json({ msg: result.msg });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
   // traveler login
   travelerLogin: async (req, res) => {
     const { email, password } = req.body;

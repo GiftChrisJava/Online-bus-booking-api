@@ -178,7 +178,7 @@ async function sendEmails() {
     const travellers = await Traveler.findAll();
 
     const travellerEmails = travellers.map((traveler) => {
-      emailSender.sendWelcomeEmail(traveler.email);
+      emailSender.sendWelcomeEmail(traveler);
     });
 
     if (!travelerAccount) {
