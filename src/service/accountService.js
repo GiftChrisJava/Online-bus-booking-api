@@ -132,7 +132,7 @@ async function createTravelerAccount(
     await traveler.update({ hasAccount: true });
 
     // send a welcoming email
-    await emailSender.sendWelcomeEmail(travelerAccount.email);
+   // await emailSender.sendWelcomeEmail(travelerAccount.email);
 
     const token = generateToken(travelerAccount);
     return { token, travelerAccount };
