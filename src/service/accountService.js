@@ -60,7 +60,7 @@ async function createAdminAccount(
     });
 
     // send a welcoming email
-    await emailSender.sendWelcomeEmail(adminAccount.email);
+    // await emailSender.sendWelcomeEmail(adminAccount.email);
 
     const token = this.generateToken(adminAccount);
 
