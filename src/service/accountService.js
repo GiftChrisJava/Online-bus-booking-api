@@ -132,7 +132,7 @@ async function createTravelerAccount(
     await traveler.update({ hasAccount: true });
 
     // send a welcoming email
-   // await emailSender.sendWelcomeEmail(travelerAccount.email);
+    // await emailSender.sendWelcomeEmail(travelerAccount.email);
 
     const token = generateToken(travelerAccount);
     return { token, travelerAccount };
@@ -181,7 +181,7 @@ async function sendEmails() {
       emailSender.sendMultipleEmails(traveler);
     });
 
-    if (!travelerAccount) {
+    if (!travellerEmails) {
       return { error: "Something went wrong when sending mail" };
     }
 
