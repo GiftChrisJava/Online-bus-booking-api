@@ -2,14 +2,11 @@ const entities = require("../models");
 const Bus = entities.Bus;
 
 // create a bus
-async function createBus(nameOfBus, capacity) {
-  const NumberOfFreeSeats = capacity;
+async function createBus(busData) {
   try {
-    const bus = await Bus.create({
-      nameOfBus,
-      capacity,
-      NumberOfFreeSeats,
-    });
+    busData.NumberOfFreeSeats = busData.capacity;
+
+    const bus = await Bus.create(busData);
 
     return { bus };
   } catch (error) {

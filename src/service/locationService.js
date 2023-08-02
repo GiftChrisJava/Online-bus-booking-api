@@ -1,21 +1,22 @@
 const entities = require("../models");
 const Location = entities.Location;
+const Bus = entities.Bus;
 
 // add bus travelling details
-async function createLocation(
-  sourceLocation,
-  destinationLocation,
-  through,
-  departureDate,
-  hoursToDestination,
-  departureTime,
-  cost,
-  route,
-  busId
-) {
+async function createLocation(routeData) {
+  let sourceLocation = routeData.sourceLocation;
+  let destinationLocation = routeData.destinationLocation;
+  let through = routeData.through;
+  let departureDate = routeData.departureDate;
+  let hoursToDestination = routeData.hoursToDestination;
+  let departureTime = routeData.departureTime;
+  let cost = routeData.cost;
+  let route = "";
+  let busId = routeData.busId;
+
   try {
     // check if details exist already exist
-    const existingLocation = await findOne({
+    const existingLocation = await Location.findOne({
       where: {
         sourceLocation,
         destinationLocation,
@@ -46,10 +47,10 @@ async function createLocation(
     });
 
     // find a bus using the specified bus Id
-    const bus = await findByPk(busId);
+    const bus = await Bus.findByPk(busId);
 
     if (!bus) {
-      return { error: "Invalid busId, Bus nor found" };
+      return { error: "Invalid busId, Bus not found" };
     }
 
     await bus.update({ hasRoute: true });

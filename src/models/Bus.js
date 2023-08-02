@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Bus = sequelize.define(
     "bus",
     {
-      nameOfBus: {
+      plateNumber: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       NumberOfFreeSeats: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

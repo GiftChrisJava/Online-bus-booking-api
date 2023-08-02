@@ -3,10 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const Location = sequelize.define(
     "location",
     {
-      sourceLocation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       destinationLocation: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -14,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
       through: {
         type: DataTypes.STRING,
         defaultValue: false,
+      },
+      sourceLocation: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       departureDate: {
         type: DataTypes.DATE,
