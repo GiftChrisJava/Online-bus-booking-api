@@ -3,11 +3,12 @@ const Bus = entities.Bus;
 
 // create a bus
 async function createBus(nameOfBus, capacity) {
+  const NumberOfFreeSeats = capacity;
   try {
     const bus = await Bus.create({
       nameOfBus,
       capacity,
-      NumberOfFreeSeats: capacity,
+      NumberOfFreeSeats,
     });
 
     return { bus };
