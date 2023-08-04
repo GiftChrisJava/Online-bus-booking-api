@@ -53,7 +53,7 @@ const busController = {
 
   // get bus by id
   getBus: async (req, res) => {
-    const { id } = req.params;
+    const {id}  = req.params;
 
     try {
       const result = await BusService.getBus(id);
