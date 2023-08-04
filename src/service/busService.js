@@ -1,5 +1,6 @@
 const entities = require("../models");
 const Bus = entities.Bus;
+const Location = entities.Location;
 
 // create a bus
 async function createBus(busData) {
@@ -79,9 +80,9 @@ async function getBuses() {
 async function getBusLocationDetails(id) {
   try {
     // find a location with the specified bus Id
-    const bus = await findOne({
+    const bus = await Bus.findOne({
       where: { id },
-      include: Location,
+      include: [{ model: Location }],
     });
 
     if (!bus) {

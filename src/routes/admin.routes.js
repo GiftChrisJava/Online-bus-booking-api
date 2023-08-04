@@ -6,7 +6,7 @@ const router = express.Router();
 
 // controlling the bus
 router.post("/bus", busController.createBus);
-router.get("/bus/location/:busId", busController.getBusLocationDetails);
+router.get("/bus/location/:id", busController.getBusLocationDetails);
 router.get("/buses", busController.getBuses);
 router.get("/bus/:busId", busController.getBus);
 router.delete("/bus/:busId", busController.deleteBus);
