@@ -8,14 +8,14 @@ const router = express.Router();
 router.post("/bus", busController.createBus);
 router.get("/bus/location/:id", busController.getBusLocationDetails);
 router.get("/buses", busController.getBuses);
-router.get("/bus/:busId", busController.getBus);
-router.delete("/bus/:busId", busController.deleteBus);
-router.put("/bus/busId", busController.updateBus);
+router.get("/bus/:id", busController.getBus);
+router.delete("/bus/:id", busController.deleteBus);
+router.put("/bus/:id", busController.updateBus);
 
 // controlling bus routes
-router.post("/route", locationController.createLocation);
-router.put("/route/:locationId", locationController.updateBusRoute);
-router.delete("/route/:locationId", locationController.deleteBusRoute);
+router.post("/location", locationController.createLocation);
+router.put("/location/:id", locationController.updateBusRoute);
+router.delete("/location/:id", locationController.deleteBusRoute);
 router.get("/routes", locationController.getBusRoutes);
 router.get("/locations", locationController.getBusLocations);
 

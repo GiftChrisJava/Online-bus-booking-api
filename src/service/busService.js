@@ -18,7 +18,7 @@ async function createBus(busData) {
 // update bus information
 async function updateBusDetails(id, busDetails) {
   try {
-    const bus = await Bus.findOne(id);
+    const bus = await Bus.findByPk(id);
 
     if (!bus) {
       return { error: "Bus not found" };
@@ -36,7 +36,7 @@ async function updateBusDetails(id, busDetails) {
 // delete a bus
 async function deleteBus(id) {
   try {
-    const bus = await Bus.findOne(id);
+    const bus = await Bus.findByPk(id);
 
     if (!bus) {
       return { error: "Bus not found" };
@@ -53,7 +53,7 @@ async function deleteBus(id) {
 // get a bus by Id
 async function getBus(id) {
   try {
-    const bus = await Bus.findOne(id);
+    const bus = await Bus.findByPk(id);
 
     if (!bus) {
       return { error: "Bus not found" };

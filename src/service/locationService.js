@@ -47,7 +47,7 @@ async function createLocation(routeData) {
     });
 
     // find a bus using the specified bus Id
-    const bus = await Bus.findByPk(busId);
+    const bus = await Bus.findOne(id);
 
     if (!bus) {
       return { error: "Invalid busId, Bus not found" };
@@ -75,9 +75,9 @@ async function getBusRoutes() {
 }
 
 // update bus route and cost
-async function updateLocation(locationId, locationDetails) {
+async function updateLocation(id, locationDetails) {
   try {
-    const location = await Location.findByPk(locationId);
+    const location = await Location.findByPk(id);
 
     if (!location) {
       return { error: "location not found" };
@@ -112,9 +112,9 @@ async function getLocations() {
 }
 
 // delete a location
-async function deleteLocation(locationId) {
+async function deleteLocation(id) {
   try {
-    const location = await Location.findByPk(locationId);
+    const location = await Location.findByPk(id);
 
     if (!location) {
       return { error: "Location not found" };
