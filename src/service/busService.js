@@ -14,7 +14,10 @@ async function createBus(busData) {
     const numberOfFreeSeats = bus.NumberOfFreeSeats;
 
     for (let i = 1; i <= numberOfFreeSeats; i++) {
-      await Seat.create();
+      await Seat.create({
+        seatNumber: i,
+        busId: bus.id,
+      });
     }
 
     return { bus };

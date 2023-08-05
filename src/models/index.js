@@ -74,6 +74,10 @@ Bus.hasMany(GroupTicket, { onDelete: "CASCADE", foreignKey: "busId" });
 Location.belongsTo(Bus, { foreignKey: "busId" });
 Bus.hasMany(Location, { onDelete: "CASCADE", foreignKey: "busId" });
 
+// A bus has several locations to travel
+Seat.belongsTo(Bus, { foreignKey: "busId" });
+Bus.hasMany(Seat, { onDelete: "CASCADE", foreignKey: "busId" });
+
 // Payment can be made for one or more tickets
 Payment.belongsToMany(Ticket, {
   through: "ticketpayment",
