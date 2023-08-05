@@ -48,8 +48,8 @@ Account.belongsTo(Admin, { onDelete: "CASCADE", foreignKey: "adminId" });
 InstitutionAccount.belongsTo(Institution, { foreignKey: "institutionId" });
 
 // a traveler can choose multiple seats
-Traveler.belongsToMany(Seat, { through: "travelerseat" });
-Seat.belongsToMany(Traveler, { through: "travelerseat" });
+Traveler.hasMany(Seat, { foreignKey: "travelerId" });
+Seat.belongsTo(Traveler, { foreignKey: "travelerId" });
 
 // traveller can book many tickets
 Traveler.hasMany(Ticket, { onDelete: "CASCADE", foreignKey: "travelerId" });
@@ -74,7 +74,7 @@ Bus.hasMany(GroupTicket, { onDelete: "CASCADE", foreignKey: "busId" });
 Location.belongsTo(Bus, { foreignKey: "busId" });
 Bus.hasMany(Location, { onDelete: "CASCADE", foreignKey: "busId" });
 
-// A bus has several locations to travel
+// A bus has several seats
 Seat.belongsTo(Bus, { foreignKey: "busId" });
 Bus.hasMany(Seat, { onDelete: "CASCADE", foreignKey: "busId" });
 
