@@ -39,7 +39,7 @@ const generateTicketNumber = () => {
 };
 
 // book for a ticket
-async function bookTicket(travelerId, busId) {
+async function bookTicket(travelerId, busId, seatNumber) {
   try {
     const traveler = await Traveler.findByPk(travelerId);
 
@@ -54,19 +54,16 @@ async function bookTicket(travelerId, busId) {
     }
 
     // check if seats are available
-    const availableSeats = await Seat.findAll({
+    const availableSeat = await Seat.findOne({
       where: {
         busId: busId,
         isAvailable: true,
+        seatNumber: seatNumber,
       },
     });
 
-    if (availableSeats.length == 0) {
-      return { error: "No available seats for this bus." };
-    }
-
-    // select the 1st available seat for booking
-    const selectedSeat = availableSeats[0];
+    // add traveler Id to seat
+    await Seat.update({ travelerId: travelerId });
 
     // create a new ticket for the traveler
     const ticket = await Ticket.create({
@@ -76,7 +73,7 @@ async function bookTicket(travelerId, busId) {
     });
 
     // Associate the traveler with the selected seat
-    await traveler.addSeat(selectedSeat);
+    await traveler.update({ travelerId: travelerId });
 
     // Mark the seat as unavailable
     await selectedSeat.update({ isAvailable: false });
@@ -86,3 +83,8 @@ async function bookTicket(travelerId, busId) {
     throw new Error("something went wrong");
   }
 }
+
+module.exports = {
+  searchBus,
+  bookTicket,
+};
