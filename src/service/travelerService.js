@@ -1,27 +1,53 @@
-const { Traveler, Ticket, Payment, Seat, Bus } = require("../models");
+const entities = require("../models");
+
+const Traveler = entities.Traveler;
+const Ticket = entities.Ticket;
+const Payment = entities.Payment;
+const Seat = entities.Seat;
+const Bus = entities.Bus;
+const Location = entities.Location;
 
 // Initialize an array to store the generated ticket numbers
 const generatedTicketNumbers = [];
 
 console.log(generatedTicketNumbers);
 // traver has to search for a bus
-async function searchBus(sourceDestination, targetDestination) {
-  try {
-    const buses = await Bus.findAll({
-      where: {
-        departureLocation: sourceDestination,
-        destinationLocation: targetDestination,
-      },
+async function searchBus(locationData) {
+  const destinationLocation = locationData.destinationLocation;
+  const sourceLocation = locationData.sourceLocation;
+  const departureDate = locationData.departureDate;
+
+  const locations = await Location.findAll({
+    where: {
+      destinationLocation,
+      sourceLocation,
+      departureDate,
+    },
+  });
+
+  const buses = [];
+
+  for (let i = 0; i < locations.length; i++) {
+    const id = locations[i].busId;
+
+    const bus = await Bus.findOne({
+      where: { id },
+      include: [
+        {
+          model: Location,
+          attributes: ["route", "departureTime", "departureDate"],
+        },
+      ],
     });
 
-    if (!buses) {
-      return { error: "Bus to the specified location not found" };
-    }
-
-    return { buses };
-  } catch (error) {
-    throw new Error("something went wrong");
+    buses.push(bus);
   }
+
+  if (!buses) {
+    return { error: "Bus to the specified location not found" };
+  }
+
+  return { buses };
 }
 
 const generateTicketNumber = () => {

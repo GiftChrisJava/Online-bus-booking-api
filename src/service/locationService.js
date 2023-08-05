@@ -46,8 +46,9 @@ async function createLocation(routeData) {
       busId,
     });
 
+    const id = busId;
     // find a bus using the specified bus Id
-    const bus = await Bus.findOne(id);
+    const bus = await Bus.findByPk(id);
 
     if (!bus) {
       return { error: "Invalid busId, Bus not found" };
