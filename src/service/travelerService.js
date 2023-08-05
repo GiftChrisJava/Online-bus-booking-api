@@ -1,5 +1,9 @@
 const { Traveler, Ticket, Payment, Seat, Bus } = require("../models");
 
+// Initialize an array to store the generated ticket numbers
+const generatedTicketNumbers = [];
+
+console.log(generatedTicketNumbers);
 // traver has to search for a bus
 async function searchBus(sourceDestination, targetDestination) {
   try {
@@ -20,5 +24,16 @@ async function searchBus(sourceDestination, targetDestination) {
   }
 }
 
-// book a ticket for a traveller
-// async function bookTicket
+const generateTicketNumber = () => {
+  let ticketNumber;
+
+  do {
+    // generate new ticket
+    ticketNumber = Math.floor(Math.random() * 1000).toString();
+  } while (generatedTicketNumbers.includes(ticketNumber));
+
+  // add the generated ticket number to the array
+  generatedTicketNumbers.push(ticketNumber);
+
+  return ticketNumber;
+};
