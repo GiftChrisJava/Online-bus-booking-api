@@ -37,3 +37,52 @@ const generateTicketNumber = () => {
 
   return ticketNumber;
 };
+
+// book for a ticket
+async function bookTicket(travelerId, busId) {
+  try {
+    const traveler = await Traveler.findByPk(travelerId);
+
+    if (!traveler) {
+      return { error: "Traveler not found." };
+    }
+
+    const bus = await Bus.findByPk(busId);
+
+    if (!bus) {
+      return { error: "Bus  not found." };
+    }
+
+    // check if seats are available
+    const availableSeats = await Seat.findAll({
+      where: {
+        busId: busId,
+        isAvailable: true,
+      },
+    });
+
+    if (availableSeats.length == 0) {
+      return { error: "No available seats for this bus." };
+    }
+
+    // select the 1st available seat for booking
+    const selectedSeat = availableSeats[0];
+
+    // create a new ticket for the traveler
+    const ticket = await Ticket.create({
+      ticketNumber: generateTicketNumber(),
+      travelerId: travelerId,
+      busId: busId,
+    });
+
+    // Associate the traveler with the selected seat
+    await traveler.addSeat(selectedSeat);
+
+    // Mark the seat as unavailable
+    await selectedSeat.update({ isAvailable: false });
+
+    return { message: "Ticket booked successfully.", ticket };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
