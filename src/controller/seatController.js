@@ -3,10 +3,10 @@ const SeatService = require("../service/SeatService");
 const seatController = {
   // get all seats for a bus
   getBusSeats: async (req, res) => {
-    const { id } = req.params;
+    const { busId } = req.params;
 
     try {
-      const result = await SeatService.getBusSeats(id);
+      const result = await SeatService.getBusSeats(busId);
 
       if (result.error) {
         return res.status(409).json({ error: result.error });
