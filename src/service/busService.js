@@ -9,6 +9,11 @@ async function createBus(busData) {
 
     const bus = await Bus.create(busData);
 
+    // create seats for this bus
+    const numberOfFreeSeats = bus.NumberOfFreeSeats;
+
+    for (let i = 1; i <= numberOfFreeSeats; i++) {}
+
     return { bus };
   } catch (error) {
     throw new Error("Something went wrong");
