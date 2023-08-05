@@ -88,8 +88,12 @@ async function bookTicket(travelerId, busId, seatNumber) {
       },
     });
 
+    if (!availableSeat) {
+      return { error: "Seat already taken." };
+    }
+
     // add traveler Id to seat
-    await Seat.update({ travelerId: travelerId });
+    await availableSeat.update({ travelerId: travelerId });
 
     // create a new ticket for the traveler
     const ticket = await Ticket.create({
@@ -102,7 +106,7 @@ async function bookTicket(travelerId, busId, seatNumber) {
     await traveler.update({ travelerId: travelerId });
 
     // Mark the seat as unavailable
-    await selectedSeat.update({ isAvailable: false });
+    await availableSeat.update({ isAvailable: false });
 
     return { message: "Ticket booked successfully.", ticket };
   } catch (error) {

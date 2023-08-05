@@ -19,8 +19,6 @@ const travelerController = {
   // book a ticket after selecting a seat
   bookTicket: async (req, res) => {
     const { travelerId, busId, seatNumber } = req.params;
-    // const { travelerId, } = req.params;
-    // const { busId} = req.params;
 
     try {
       const result = await TravelerService.bookTicket(
