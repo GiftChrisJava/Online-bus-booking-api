@@ -1,6 +1,27 @@
 const TravelerService = require("../service/travelerService");
 
 const travelerController = {
+  // create traveller
+  createTraveler: async (req, res) => {
+    const { email, contact, firstName, lastName } = req.body;
+    try {
+      const result = await TravelerService.createTraveler(
+        email,
+        contact,
+        firstName,
+        lastName
+      );
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(201).json({ traveler: result.traveler });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error." });
+    }
+  },
+
   // search for a bus
   searchBus: async (req, res) => {
     try {
