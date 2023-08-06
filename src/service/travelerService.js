@@ -108,7 +108,7 @@ async function bookTicket(travelerId, busId, seatNumber) {
     // Mark the seat as unavailable
     await availableSeat.update({ isAvailable: false });
 
-    return { message: "Ticket booked successfully.", ticket };
+    return { message: "Ticket booked successfully.", ticket, availableSeat };
   } catch (error) {
     throw new Error("something went wrong");
   }
