@@ -114,7 +114,39 @@ async function bookTicket(travelerId, busId, seatNumber) {
   }
 }
 
+// create a traveller without account
+async function createTraveler(email, contact, firstName, lastName) {
+  try {
+    // check if the given email is available
+    const existingTraveler = await Traveler.findOne({
+      where: { email },
+    });
+
+    // if the email is available then user has posted a form and payment is not fully made and is creating an acount
+    if (!existingTraveler) {
+      // if email is not available then traveler is not in our system
+      // create traveller
+      const traveler = await Traveler.create({
+        contact,
+        firstName,
+        lastName,
+        email,
+      });
+
+      return { traveler };
+    }
+
+    // send a welcoming email
+    // await emailSender.sendWelcomeEmail(travelerAccount.email);
+
+    return { existingTraveler };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
 module.exports = {
   searchBus,
   bookTicket,
+  createTraveler,
 };
