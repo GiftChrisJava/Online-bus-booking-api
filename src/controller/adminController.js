@@ -26,7 +26,7 @@ const adminController = {
         return res.status(409).json({ error: result.error });
       }
 
-      return { travelers: result.travelers };
+      return res.status(200).json({ travelers: result.travelers });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }
@@ -41,7 +41,7 @@ const adminController = {
         return res.status(409).json({ error: result.error });
       }
 
-      return { travelers: result.travelers };
+      return res.status(200).json({ travelers: result.travelers });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }
