@@ -8,5 +8,6 @@ router.get(
   "/bookticket/:travelerId/:busId/:seatNumber",
   travelerController.bookTicket
 );
+router.post("/create", travelerController.createTraveler);
 
 module.exports = router;
