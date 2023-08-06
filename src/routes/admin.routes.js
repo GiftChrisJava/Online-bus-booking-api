@@ -4,7 +4,7 @@ const adminMiddleware = require("../middleware/AdminMiddleware");
 const locationController = require("../controller/locationController");
 const seatController = require("../controller/seatController");
 const travelerController = require("../controller/travelerController");
-
+const adminController = require("../controller/adminController");
 const router = express.Router();
 
 // controlling the bus
@@ -24,5 +24,10 @@ router.get("/locations", locationController.getBusLocations);
 
 // seats
 router.get("/seats/:busId", seatController.getBusSeats);
+
+// basic admin duties
+router.get("/paid/travelers", adminController.getTravelersWithPayments);
+router.get("/unpaid/travelers", adminController.getTravelersWithoutPayments);
+router.delete("/cancel-booking/:travelerId", adminController.cancelBooking);
 
 module.exports = router;
