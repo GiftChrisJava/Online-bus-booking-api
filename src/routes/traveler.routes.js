@@ -1,6 +1,6 @@
 const express = require("express");
 const travelerController = require("../controller/travelerController");
-
+const paymentController = require("../controller/paymentController");
 const router = express.Router();
 
 router.get("/search", travelerController.searchBus);
@@ -9,5 +9,6 @@ router.get(
   travelerController.bookTicket
 );
 router.post("/create", travelerController.createTraveler);
+router.post("/pay", paymentController.processPayment);
 
 module.exports = router;
