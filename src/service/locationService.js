@@ -1,4 +1,5 @@
 const entities = require("../models");
+const moment = require("moment");
 const Location = entities.Location;
 const Bus = entities.Bus;
 
@@ -13,6 +14,8 @@ async function createLocation(routeData) {
   let cost = routeData.cost;
   let route = "";
   let busId = routeData.busId;
+
+  departureDate = moment(departureDate, "DD/MM/YY").format("YYYY-MM-DD");
 
   try {
     // check if details exist already exist
