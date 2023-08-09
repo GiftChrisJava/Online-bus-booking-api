@@ -6,6 +6,7 @@ const entities = require("../models");
 const Payment = entities.Payment;
 const Ticket = entities.Ticket;
 const Location = entities.Location;
+const Seat = entities.Seat;
 
 const PaymentService = {
   async processPayment(paymentData, token) {
@@ -56,6 +57,9 @@ const PaymentService = {
       if (!payment) {
         return { error: "Payment records not created" };
       }
+
+      // find all seats with that traveler id
+      const seats = await Seat.findAll({ where: { travelerId } });
 
       console.log(tickets);
 
