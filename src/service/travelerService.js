@@ -6,6 +6,7 @@ const Payment = entities.Payment;
 const Seat = entities.Seat;
 const Bus = entities.Bus;
 const Location = entities.Location;
+const emailSender = require("../utils/email");
 
 // Initialize an array to store the generated ticket numbers
 const generatedTicketNumbers = [];
@@ -145,8 +146,45 @@ async function createTraveler(email, contact, firstName, lastName) {
   }
 }
 
+// cancel a ticket booking for a traveler
+async function cancelBooking(email) {
+  try {
+    const traveler = await Traveler.findOne({ where: { email } });
+
+    if (!traveler) {
+      return { error: "Traveler not found." };
+    }
+
+    const ticket = await Ticket.findOne({ where: { travelerId: id } });
+
+    if (!ticket) {
+      return { error: "Ticket not found." };
+    }
+
+    //Mark the seat associated with the ticket as available
+    const seat = await Seat.findOne({
+      where: { travelerId: ticket.travelerId },
+    });
+
+    if (seat) {
+      await seat.update({ isAvailable: true });
+    }
+
+    // delete the ticket
+    await ticket.destroy();
+
+    // send email about the cancelation
+    await emailSender.sendCancelationEmail(travelerAccount.email);
+
+    return { msg: "Booking canceled successfully" };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 module.exports = {
   searchBus,
   bookTicket,
   createTraveler,
+  cancelBooking,
 };
