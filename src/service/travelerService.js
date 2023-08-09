@@ -101,6 +101,7 @@ async function bookTicket(travelerId, busId, seatNumber) {
       ticketNumber: generateTicketNumber(),
       travelerId: travelerId,
       busId: busId,
+      seatId: availableSeat.id,
     });
 
     // Associate the traveler with the selected seat

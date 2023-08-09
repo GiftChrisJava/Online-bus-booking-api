@@ -7,6 +7,7 @@ const Payment = entities.Payment;
 const Ticket = entities.Ticket;
 const Location = entities.Location;
 const Seat = entities.Seat;
+const Bus = entities.Bus;
 
 const PaymentService = {
   async processPayment(paymentData, token) {
@@ -16,7 +17,10 @@ const PaymentService = {
       // calculate total payment
       let amount = 0;
 
-      const tickets = await Ticket.findAll({ where: { travelerId } });
+      const tickets = await Ticket.findAll({
+        where: { travelerId },
+        include: [{ model: Seat }, { model: Bus }],
+      });
 
       // for each ticket update paidForBookedBus to true
       for (const ticket of tickets) {
@@ -57,9 +61,6 @@ const PaymentService = {
       if (!payment) {
         return { error: "Payment records not created" };
       }
-
-      // find all seats with that traveler id
-      const seats = await Seat.findAll({ where: { travelerId } });
 
       console.log(tickets);
 
