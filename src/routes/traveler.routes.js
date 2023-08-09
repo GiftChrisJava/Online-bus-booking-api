@@ -10,5 +10,6 @@ router.get(
 );
 router.post("/create", travelerController.createTraveler);
 router.post("/pay", paymentController.processPayment);
+router.delete("/cancel-booking", travelerController.cancelBooking);
 
 module.exports = router;

@@ -61,6 +61,23 @@ const travelerController = {
       return res.status(500).json({ error: "Internal server error." });
     }
   },
+
+  // a traveller can cancel a booking
+  cancelBooking: async (req, res) => {
+    const { email } = req.body;
+
+    try {
+      const result = await TravelerService.cancelBooking(email);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = travelerController;
