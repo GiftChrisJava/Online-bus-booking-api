@@ -15,7 +15,23 @@ const sendWelcomeEmail = async (email) => {
       from: EMAIL,
       to: email,
       subject: "Welcome to Simpoft Bus booking System",
-      text: "Thank you for each and every help you offered to me last semi. I appriate you it a lot not matter how small it seemed. AM CODING A BUS BOOKING SYSTEM AND I WANT IT TO BE SENDING EMAILS TO TRAVELERS",
+      text: "Information about the ticket you have booked will be sent to this email. Thank you for choosing us",
+    });
+  } catch (error) {
+    console.error("Error sending Welcome email : ", error);
+  }
+};
+
+// send ticket booking summary
+
+// alert user that the ticket bought has been canceled succesfully.
+const sendCancelationEmail = async (email) => {
+  try {
+    await transporter.sendMail({
+      from: EMAIL,
+      to: email,
+      subject: "Cancelation of a Bus Ticket",
+      text: "Your ticket has been canceled. Please wait as we process a refund. Email us your account number.",
     });
   } catch (error) {
     console.error("Error sending Welcome email : ", error);
@@ -37,4 +53,4 @@ const sendMultipleEmails = async (traveler) => {
   }
 };
 
-module.exports = { sendWelcomeEmail, sendMultipleEmails };
+module.exports = { sendWelcomeEmail, sendMultipleEmails, sendCancelationEmail };
