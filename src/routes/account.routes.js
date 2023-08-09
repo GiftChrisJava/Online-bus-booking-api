@@ -7,4 +7,5 @@ router.post("/register/traveler", AccoutController.createTravelerAccount);
 router.post("/login/admin", AccoutController.adminLogin);
 router.post("/login/traveler", AccoutController.travelerLogin);
 router.get("/send/emails", AccoutController.sendEmailsToTravelers);
+router.delete("/account", AccoutController.deleteAccount);
 module.exports = router;
