@@ -104,6 +104,21 @@ const AccoutController = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  // delete account
+  deleteAccount: async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      const result = await AccountService.deleteAccount(email, password);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (error) {}
+  },
 };
 
 module.exports = AccoutController;
