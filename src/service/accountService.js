@@ -60,7 +60,7 @@ async function createAdminAccount(
     });
 
     // send a welcoming email
-    // await emailSender.sendWelcomeEmail(adminAccount.email);
+    await emailSender.sendWelcomeEmail(adminAccount.email);
 
     const token = this.generateToken(adminAccount);
 
@@ -132,7 +132,7 @@ async function createTravelerAccount(
     await traveler.update({ hasAccount: true });
 
     // send a welcoming email
-    // await emailSender.sendWelcomeEmail(travelerAccount.email);
+    await emailSender.sendWelcomeEmail(travelerAccount.email);
 
     const token = generateToken(travelerAccount);
     return { token, travelerAccount };
@@ -167,6 +167,35 @@ async function adminLogin(email, password) {
     const token = generateToken(adminAccount);
 
     return { token, adminAccount };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// delete account
+async function deleteAccount(email, password) {
+  try {
+    const account = await UserAccount.findOne({ where: { email } });
+
+    if (!adminAccount) {
+      return {
+        error: "Adminstrator  Not found",
+      };
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      adminAccount.password
+    );
+
+    if (!isPasswordValid) {
+      return { error: "Invalid password!!" };
+    }
+
+    // delete account
+    await account.destroy();
+
+    return { msg: "Account deleted successfully" };
   } catch (error) {
     throw new Error("Something went wrong");
   }
