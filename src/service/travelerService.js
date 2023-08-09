@@ -133,11 +133,11 @@ async function createTraveler(email, contact, firstName, lastName) {
         email,
       });
 
+      // send a welcoming email
+      await emailSender.sendWelcomeEmail(travelerAccount.email);
+
       return { traveler };
     }
-
-    // send a welcoming email
-    // await emailSender.sendWelcomeEmail(travelerAccount.email);
 
     return { existingTraveler };
   } catch (error) {
