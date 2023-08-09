@@ -23,7 +23,9 @@ const sendWelcomeEmail = async (email) => {
 };
 
 // send ticket booking summary
-
+const sendTicketInformation = async (tickets) => {
+  console.log(tickets);
+};
 // alert user that the ticket bought has been canceled succesfully.
 const sendCancelationEmail = async (email) => {
   try {
@@ -53,4 +55,9 @@ const sendMultipleEmails = async (traveler) => {
   }
 };
 
-module.exports = { sendWelcomeEmail, sendMultipleEmails, sendCancelationEmail };
+module.exports = {
+  sendWelcomeEmail,
+  sendMultipleEmails,
+  sendCancelationEmail,
+  sendTicketInformation,
+};

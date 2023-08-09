@@ -107,9 +107,6 @@ async function bookTicket(travelerId, busId, seatNumber) {
     // Associate the traveler with the selected seat
     await traveler.update({ travelerId: travelerId });
 
-    // Mark the seat as unavailable
-    await availableSeat.update({ isAvailable: false });
-
     return { message: "Ticket booked successfully.", ticket, availableSeat };
   } catch (error) {
     throw new Error("something went wrong");

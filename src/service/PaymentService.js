@@ -62,9 +62,21 @@ const PaymentService = {
         return { error: "Payment records not created" };
       }
 
-      console.log(tickets);
+      // find a seat
+      const availableSeat = await Seat.findOne({
+        where: { travelerId: payment.travelerId, isAvailable: true },
+      });
 
-      return { payment };
+      if (availableSeat) {
+        // Mark the seat as unavailable
+        await availableSeat.update({ isAvailable: false });
+      } else {
+        return {
+          error: "Sit must have been taken by someone before you took it",
+        };
+      }
+
+      return { payment, tickets };
     } catch (error) {
       throw new Error("Something went wrong in the code");
     }

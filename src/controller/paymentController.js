@@ -1,4 +1,5 @@
 const PaymentService = require("../service/PaymentService");
+const email = require("../utils/email");
 
 const paymentController = {
   processPayment: async (req, res) => {
@@ -11,6 +12,7 @@ const paymentController = {
         return res.status(409).json({ error: result.error });
       }
 
+      console.log(result.tickets);
       return res.status(201).json({ bus: result.payment });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
