@@ -24,7 +24,7 @@ const sendWelcomeEmail = async (email) => {
 };
 
 // send ticket booking summary
-const sendTicketInformation = async (tickets, travelerId) => {
+const sendTicketInformation = async (tickets, email) => {
   const ticketNumbers = tickets.map((ticket) => ticket.ticketNumber).join(", ");
   const seatNumbers = tickets
     .map((ticket) => ticket.seat.seatNumber)
@@ -48,11 +48,10 @@ const sendTicketInformation = async (tickets, travelerId) => {
     options
   );
 
-  const traveler = entities.Traveler.findOne({ where: { id: travelerId } });
   try {
     await transporter.sendMail({
       from: EMAIL,
-      to: traveler.email,
+      to: email,
       subject: "Bus Booking Infomation",
       text:
         `You have booked ${tickets.length} tickets:\n` +

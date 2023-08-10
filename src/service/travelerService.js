@@ -104,8 +104,12 @@ async function bookTicket(travelerId, busId, seatNumber) {
       seatId: availableSeat.id,
     });
 
-    // Associate the traveler with the selected seat
-    await traveler.update({ travelerId: travelerId });
+    if (availableSeat.travelerId) {
+      // Associate the traveler with the selected seat
+      await traveler.update({ travelerId: travelerId });
+    } else {
+      return { error: "Seat already taken." };
+    }
 
     return { message: "Ticket booked successfully.", ticket, availableSeat };
   } catch (error) {

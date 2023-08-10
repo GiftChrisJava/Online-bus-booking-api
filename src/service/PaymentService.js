@@ -9,9 +9,10 @@ const Ticket = entities.Ticket;
 const Location = entities.Location;
 const Seat = entities.Seat;
 const Bus = entities.Bus;
+const Traveler = entities.Traveler;
 
 const PaymentService = {
-  async processPayment(paymentData, token) {
+  async processPayment(paymentData, paymentMethodId) {
     const travelerId = paymentData.travelerId;
 
     try {
@@ -19,7 +20,7 @@ const PaymentService = {
       let amount = 0;
 
       const tickets = await Ticket.findAll({
-        where: { travelerId: 1 },
+        where: { travelerId },
         include: [
           { model: Bus, include: [{ model: Location }] },
           { model: Seat },
@@ -42,16 +43,34 @@ const PaymentService = {
         }
       }
 
-      // Create a Stripe charge
-      const stripeCharge = await stripe.charges.create({
-        amount: amount * 100, // Stripe requires amount in cents
-        currency: "mwk", // Malawi Kwacha
-        source: token,
-        description: "Payment for Ticket",
+      // find a seat and update availability status
+      const seats = await Seat.findAll({
+        where: { travelerId, isAvailable: true },
       });
 
-      if (!stripeCharge) {
-        return { error: "Stripe charge never happened" };
+      // if available
+      if (seats) {
+        // Create a Stripe payment intent
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: amount * 100, // Stripe requires amount in cents
+          currency: "mwk", // Malawi Kwacha
+          payment_method: paymentMethodId, // Use paymentMethodId instead of source
+          description: "Payment for Ticket",
+          confirm: true, // Confirm the payment intent immediately
+        });
+
+        if (!paymentIntent) {
+          return { error: "Stripe payment intent never happened" };
+        }
+
+        // update seats
+        const updatedSeats = seats.map((seat) => {
+          seat.update({ isAvailable: false });
+        });
+      } else {
+        return {
+          error: "Seats have already been taken before you made payment",
+        };
       }
 
       // Create a payment record in the database
@@ -66,26 +85,14 @@ const PaymentService = {
         return { error: "Payment records not created" };
       }
 
-      // find a seat
-      const availableSeat = await Seat.findOne({
-        where: { travelerId: payment.travelerId, isAvailable: true },
-      });
-
-      if (availableSeat) {
-        // Mark the seat as unavailable
-        await availableSeat.update({ isAvailable: false });
-      } else {
-        return {
-          error: "Sit must have been taken by someone before you took it",
-        };
-      }
+      const traveler = await Traveler.findOne({ where: { id: travelerId } });
 
       // send email
-      email.sendTicketInformation(tickets, travelerId);
+      email.sendTicketInformation(tickets, traveler.email);
 
       return { payment, tickets };
     } catch (error) {
-      throw new Error("Something went wrong in the code");
+      throw new Error("something went wrong");
     }
   },
 };
