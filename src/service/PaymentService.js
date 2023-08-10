@@ -1,6 +1,7 @@
 const stripe = require("stripe")(
   "sk_test_51NV9VgFgObjlCeyVdynrz3xEvG3d9bG8UtQs7SKomy6mpX2miMsrYhAgGSVixzSma76jNY06sJ1k6S5HhU69rSVw00rFiAG8O3"
 );
+const email = require("../utils/email");
 
 const entities = require("../models");
 const Payment = entities.Payment;
@@ -18,8 +19,11 @@ const PaymentService = {
       let amount = 0;
 
       const tickets = await Ticket.findAll({
-        where: { travelerId },
-        include: [{ model: Seat }, { model: Bus }],
+        where: { travelerId: 1 },
+        include: [
+          { model: Bus, include: [{ model: Location }] },
+          { model: Seat },
+        ],
       });
 
       // for each ticket update paidForBookedBus to true
@@ -75,6 +79,9 @@ const PaymentService = {
           error: "Sit must have been taken by someone before you took it",
         };
       }
+
+      // send email
+      email.sendTicketInformation(tickets, travelerId);
 
       return { payment, tickets };
     } catch (error) {

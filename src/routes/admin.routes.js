@@ -29,5 +29,6 @@ router.get("/seats/:busId", seatController.getBusSeats);
 router.get("/paid/travelers", adminController.getTravelersWithPayments);
 router.get("/unpaid/travelers", adminController.getTravelersWithoutPayments);
 router.delete("/cancel-booking/:travelerId", adminController.cancelBooking);
+router.get("/test/:travelerId", adminController.testThis);
 
 module.exports = router;

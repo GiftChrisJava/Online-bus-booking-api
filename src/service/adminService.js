@@ -1,4 +1,6 @@
 const entities = require("../models");
+const email = require("../utils/email");
+
 const Traveler = entities.Traveler;
 const Ticket = entities.Ticket;
 const Seat = entities.Seat;
@@ -55,6 +57,24 @@ async function getTravelersWithPayments() {
   }
 }
 
+async function testThis(travelerId) {
+  try {
+    const tickets = await Ticket.findAll({
+      where: { travelerId: 1 },
+      include: [
+        { model: entities.Bus, include: [{ model: entities.Location }] },
+        { model: Seat },
+      ],
+    });
+
+    email.sendTicketInformation(tickets, travelerId);
+
+    return { tickets };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 // get all the traveler who have booked a ticket
 // but have did not make any payment
 async function getTravelersWithoutPayments() {
@@ -78,4 +98,5 @@ module.exports = {
   getTravelersWithPayments,
   getTravelersWithoutPayments,
   cancelBooking,
+  testThis,
 };

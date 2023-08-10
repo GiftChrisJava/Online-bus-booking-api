@@ -46,6 +46,17 @@ const adminController = {
       return res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  testThis: async (req, res) => {
+    const { travelerId } = req.params;
+    try {
+      const result = await AdminService.testThis(travelerId);
+
+      return res.status(200).json({ tickets: result.tickets });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = adminController;
