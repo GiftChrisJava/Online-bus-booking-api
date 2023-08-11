@@ -29,6 +29,8 @@ router.get("/paid/travelers", adminController.getTravelersWithPayments);
 router.get("/unpaid/travelers", adminController.getTravelersWithoutPayments);
 router.delete("/cancel-booking/:travelerId", adminController.cancelBooking);
 router.get("/test/:travelerId", adminController.testThis);
+
+// driver
 router.post("/driver", adminController.createBusDriver);
 router.delete("/driver", adminController.deleteDriver);
 router.get("/drivers", adminController.getDrivers);
