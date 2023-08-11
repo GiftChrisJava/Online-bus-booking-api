@@ -47,8 +47,8 @@ const adminController = {
     }
   },
 
-  // create bus traveler
-  createBusTraver: async (req, res) => {
+  // create bus Driver
+  createBusDriver: async (req, res) => {
     const { username, password } = req.body;
     try {
       const result = await AdminService.createBusDriver(username, password);
@@ -75,6 +75,17 @@ const adminController = {
       }
 
       return res.status(200).json({ msg: result.msg });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // get all drvers
+  getDrivers: async (req, res) => {
+    try {
+      const result = await AdminService.getDrivers();
+
+      return res.status(200).json({ drivers: result.drivers });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

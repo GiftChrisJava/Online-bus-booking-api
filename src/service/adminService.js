@@ -137,6 +137,17 @@ async function getTravelersWithoutPayments() {
   }
 }
 
+// get drivers
+async function getDrivers() {
+  try {
+    const drivers = await Driver.findAll();
+
+    return { drivers };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 module.exports = {
   getTravelersWithPayments,
   getTravelersWithoutPayments,
@@ -144,4 +155,5 @@ module.exports = {
   testThis,
   createBusDriver,
   deleteDriver,
+  getDrivers,
 };
