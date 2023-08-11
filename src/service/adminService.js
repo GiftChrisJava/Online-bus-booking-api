@@ -80,6 +80,23 @@ async function createBusDriver(username, password) {
   }
 }
 
+// delete a bus driver
+async function deleteDriver(id) {
+  try {
+    const existingDriver = await Driver.findByPk(id);
+
+    if (existingDriver) {
+      return { error: "Driver with these credentials already exists" };
+    }
+
+    await existingDriver.destroy();
+
+    return { msg: "Driver deleted successfully" };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 async function testThis(travelerId) {
   try {
     const tickets = await Ticket.findAll({
@@ -123,4 +140,5 @@ module.exports = {
   cancelBooking,
   testThis,
   createBusDriver,
+  deleteDriver,
 };
