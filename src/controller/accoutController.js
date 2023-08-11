@@ -119,6 +119,23 @@ const AccoutController = {
       return res.status(200).json({ msg: result.msg });
     } catch (error) {}
   },
+
+  // driver login
+  driverLogin: async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+      const result = await AccountService.driverLogin(username, password);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      res.status(201).json({ token: result.token });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = AccoutController;

@@ -246,6 +246,32 @@ async function travelerLogin(email, password) {
   }
 }
 
+// driver login
+async function driverLogin(username, password) {
+  try {
+    const driver = await entities.Driver.findOne({
+      where: { username, password },
+    });
+
+    if (!driver) {
+      return { error: "Invalid username or password" };
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      travelerAccount.password
+    );
+
+    if (!isPasswordValid) {
+      return { error: "Invalid password" };
+    }
+
+    const token = generateToken(driver);
+
+    return { token };
+  } catch (error) {}
+}
+
 module.exports = {
   generateToken,
   createAdminAccount,
@@ -254,4 +280,5 @@ module.exports = {
   travelerLogin,
   sendEmails,
   deleteAccount,
+  driverLogin,
 };

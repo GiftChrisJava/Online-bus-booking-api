@@ -1,5 +1,6 @@
 const entities = require("../models");
 const email = require("../utils/email");
+const bcrypt = require("bcryptjs");
 
 const Traveler = entities.Traveler;
 const Ticket = entities.Ticket;
@@ -69,9 +70,11 @@ async function createBusDriver(username, password) {
       return { error: "Driver with these credentials already exists" };
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const driver = await Driver.create({
       username,
-      password,
+      password: hashedPassword,
     });
 
     return { driver };
