@@ -4,6 +4,7 @@ const email = require("../utils/email");
 const Traveler = entities.Traveler;
 const Ticket = entities.Ticket;
 const Seat = entities.Seat;
+const Driver = entities.Driver;
 
 // cancel a ticket booking for a traveler
 async function cancelBooking(id) {
@@ -57,6 +58,28 @@ async function getTravelersWithPayments() {
   }
 }
 
+// create a bus driver in the database
+async function createBusDriver(username, password) {
+  try {
+    const existingDriver = await Driver.findOne({
+      where: { username, password },
+    });
+
+    if (existingDriver) {
+      return { error: "Driver with these credentials already exists" };
+    }
+
+    const driver = await Driver.create({
+      username,
+      password,
+    });
+
+    return { driver };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 async function testThis(travelerId) {
   try {
     const tickets = await Ticket.findAll({
@@ -99,4 +122,5 @@ module.exports = {
   getTravelersWithoutPayments,
   cancelBooking,
   testThis,
+  createBusDriver,
 };
