@@ -1,4 +1,3 @@
-// accountService.js (services/accountService.js)
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../config/authConfig");
