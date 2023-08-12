@@ -27,11 +27,8 @@ const PaymentService = {
         ],
       });
 
-      // for each ticket update paidForBookedBus to true
+      // calculate cost
       for (const ticket of tickets) {
-        // update
-        await ticket.update({ paidForBookedBus: true });
-
         let busId = ticket.busId;
 
         // find a location with specified busId
@@ -66,6 +63,11 @@ const PaymentService = {
         // update seats
         const updatedSeats = seats.map((seat) => {
           seat.update({ isAvailable: false });
+        });
+
+        // mark that the ticket has been paid for
+        const updatedTicket = tickets.map((ticket) => {
+          ticket.update({ paidForBookedBus: true });
         });
       } else {
         return {
