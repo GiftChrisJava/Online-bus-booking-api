@@ -7,6 +7,7 @@ const accountRoutes = require("./src/routes/account.routes");
 const institutionAccountRoutes = require("./src/routes/institutionAcc.routes");
 const adminRoutes = require("./src/routes/admin.routes");
 const traverRoutes = require("./src/routes/traveler.routes");
+const driverRoutes = require("./src/routes/driver.routes");
 
 // middleware
 app.use(cors());
@@ -18,6 +19,7 @@ app.use("/account", accountRoutes);
 app.use("/institutionAcc", institutionAccountRoutes);
 app.use("/admin", adminRoutes);
 app.use("/traveler", traverRoutes);
+app.use("/driver", driverRoutes);
 
 // define port
 const PORT = process.env.PORT || 8080;

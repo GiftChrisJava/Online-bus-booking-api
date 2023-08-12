@@ -40,6 +40,11 @@ const Location = require("../models/Location")(sequelize, DataTypes);
 const Driver = require("../models/Driver")(sequelize, DataTypes);
 
 // Associations
+
+// a driver can drive multiple buses
+Driver.hasMany(Bus, { foreignKey: "driverId" });
+Bus.belongsTo(Driver, { foreignKey: "driverId" });
+
 // A traveller has an account
 Account.belongsTo(Traveler, { foreignKey: "travelerId" });
 
