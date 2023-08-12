@@ -21,12 +21,12 @@ async function cancelTravelerTicket(ticketNumber) {
     await existingTicket.destroy();
 
     // confirm that a traveler bought a bus
-    await Traveler.update(
+    const updatedTraveler = await Traveler.update(
       { boardBus: true },
       { where: { id: existingTicket.travelerId } }
     );
 
-    return { msg: "Ticket Removed!!" };
+    return { msg: "Ticket Removed!!", updatedTraveler };
   } catch (error) {
     throw new Error("something went wrong");
   }
