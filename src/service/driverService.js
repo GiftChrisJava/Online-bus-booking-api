@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const entities = require("../models");
 const Traveler = entities.Traveler;
 const Ticket = entities.Ticket;
@@ -18,6 +19,12 @@ async function cancelTravelerTicket(ticketNumber) {
 
     // remove ticket
     await existingTicket.destroy();
+
+    // confirm that a traveler bought a bus
+    await Traveler.update(
+      { boardBus: true },
+      { where: { id: existingTicket.travelerId } }
+    );
 
     return { msg: "Ticket Removed!!" };
   } catch (error) {
@@ -60,7 +67,7 @@ async function cancelUnpaidTickets(busId, driverId) {
 
     // destroy all tickets
     const tickets = await Ticket.destroy({
-      where: { paidForBookedBus: false },
+      where: { paidForBookedBus: false, busId },
     });
 
     return { tickets };
@@ -69,4 +76,32 @@ async function cancelUnpaidTickets(busId, driverId) {
   }
 }
 
-// get all the travellers who paid for this bus
+// get all the travellers who paid for this bus and on board
+async function getTravellerPaid(busId) {
+  try {
+    // we are talking abou this bus you are driving
+    const existingBus = await Bus.findOne({ where: { id: busId } });
+
+    if (!existingBus) {
+      return { error: "Bus Not availabe" };
+    }
+
+    const travelers = [];
+
+    // find all paid tickets
+    const tickets = await Ticket.findAll({
+      where: { paidForBookedBus: true, busId },
+    });
+
+    tickets.map((ticket) => {
+      const traveler = Traveler.findOne({
+        where: { id: ticket.travelerId, boardBus: true },
+      });
+      travelers.push(traveler);
+    });
+
+    return { travelers };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
