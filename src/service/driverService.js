@@ -105,3 +105,10 @@ async function getTravellerPaid(busId) {
     throw new Error("something went wrong");
   }
 }
+
+module.exports = {
+  cancelTravelerTicket,
+  cancelUnpaidTickets,
+  clearSeats,
+  getTravellerPaid,
+};
