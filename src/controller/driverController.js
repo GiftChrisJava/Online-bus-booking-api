@@ -53,7 +53,7 @@ const driverController = {
     }
   },
 
-  // cancel all unpaid tickets
+  // cancel all unpaid tickets if the bus in onRoad
   cancelUnpaidTickets: async (req, res) => {
     const { busId, driverId } = req.body;
 
@@ -65,6 +65,40 @@ const driverController = {
       }
 
       return res.status(200).json({ tickets: result.tickets });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // update bus on road
+  updateBusOnRoadTrue: async (req, res) => {
+    const { busId } = req.params;
+
+    try {
+      const result = await driverService.setBusOnRoad(busId);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // update bus off road
+  updateBusOnRoadFalse: async (req, res) => {
+    const { busId } = req.params;
+
+    try {
+      const result = await driverService.setBusOffRoad(busId);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ msg: result.msg });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

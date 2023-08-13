@@ -106,9 +106,46 @@ async function getTravellerPaid(busId) {
   }
 }
 
+// set bus that its onRoad.
+async function setBusOnRoad(busId) {
+  const id = busId;
+  try {
+    const existingBus = await Bus.findByPk(id);
+
+    if (!existingBus) {
+      return { error: "Bus Not availabe" };
+    }
+
+    await existingBus.update({ onRoad: true });
+
+    return { msg: `on the road : ${existingBus.onRoad}` };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
+async function setBusOffRoad(busId) {
+  const id = busId;
+  try {
+    const existingBus = await Bus.findByPk(id);
+
+    if (!existingBus) {
+      return { error: "Bus Not availabe" };
+    }
+
+    await existingBus.update({ onRoad: false });
+
+    return { msg: `on the road : ${existingBus.onRoad}` };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 module.exports = {
   cancelTravelerTicket,
   cancelUnpaidTickets,
   clearSeats,
   getTravellerPaid,
+  setBusOnRoad,
+  setBusOffRoad,
 };
