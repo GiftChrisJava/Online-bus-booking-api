@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "traveler",
       },
-      boardBus: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-      },
     },
     {
       timestamps: false,

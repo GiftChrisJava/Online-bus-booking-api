@@ -38,6 +38,7 @@ const InstitutionAccount = require("../models/InstitutionAccount")(
 );
 const Location = require("../models/Location")(sequelize, DataTypes);
 const Driver = require("../models/Driver")(sequelize, DataTypes);
+const Booking = require("../models/Booking")(sequelize, DataTypes);
 
 // Associations
 
@@ -122,6 +123,7 @@ db.Traveler = Traveler;
 db.InstitutionAccount = InstitutionAccount;
 db.Location = Location;
 db.Driver = Driver;
+db.Booking = Booking;
 
 // run database
 db.sequelize.sync({ force: false }).then(() => {
