@@ -1,3 +1,4 @@
+const moment = require("moment/moment");
 const entities = require("../models");
 
 const Traveler = entities.Traveler;
@@ -11,12 +12,17 @@ const emailSender = require("../utils/email");
 // Initialize an array to store the generated ticket numbers
 const generatedTicketNumbers = [];
 
-console.log(generatedTicketNumbers);
 // traver has to search for a bus
 async function searchBus(locationData) {
   const destinationLocation = locationData.destinationLocation;
   const sourceLocation = locationData.sourceLocation;
   const departureDate = locationData.departureDate;
+
+  // function to calculate time difference in hours
+  function calculateTimeDifference(departureTime) {
+    const departure = moment(departureTime, "HH:mm");
+    return departure.diff(moment.now, "hours");
+  }
 
   const locations = await Location.findAll({
     where: {
@@ -26,13 +32,16 @@ async function searchBus(locationData) {
     },
   });
 
+  const currentTime = moment(); // Get the current time
+  console.log(currentTime);
+
   const buses = [];
 
   for (let i = 0; i < locations.length; i++) {
     const id = locations[i].busId;
 
     const bus = await Bus.findOne({
-      where: { id },
+      where: { id, onRoad: false },
       include: [
         {
           model: Location,
@@ -41,7 +50,12 @@ async function searchBus(locationData) {
       ],
     });
 
-    buses.push(bus);
+    const timeDifference = calculateTimeDifference(bus.Location.departureTime);
+
+    // check if the time difference between depature time and current time is 2hrs
+    if (timeDifference >= 2) {
+      buses.push(bus);
+    }
   }
 
   if (!buses) {
