@@ -10,10 +10,12 @@ const Location = entities.Location;
 const Seat = entities.Seat;
 const Bus = entities.Bus;
 const Traveler = entities.Traveler;
+const Booking = entities.Booking;
 
 const PaymentService = {
   async processPayment(paymentData, paymentMethodId) {
     const travelerId = paymentData.travelerId;
+    const travelDate = paymentData.travelDate;
 
     try {
       // calculate total payment
@@ -22,14 +24,20 @@ const PaymentService = {
       const tickets = await Ticket.findAll({
         where: { travelerId },
         include: [
-          { model: Bus, include: [{ model: Location }] },
+          {
+            model: Bus,
+            include: [
+              { model: Location, where: { departureDate: travelDate } },
+            ],
+          },
           { model: Seat },
         ],
       });
 
+      let busId;
       // calculate cost
       for (const ticket of tickets) {
-        let busId = ticket.busId;
+        busId = ticket.busId;
 
         // find a location with specified busId
         const location = await Location.findOne({ where: { busId: busId } });
@@ -91,6 +99,22 @@ const PaymentService = {
 
       // send email
       email.sendTicketInformation(tickets, traveler.email);
+
+      // create a booking history
+      const booking = await Booking.create({
+        travelerId: travelerId,
+        busId: busId,
+        travelerEmail: traveler.email,
+        travelerContact: traveler.contact,
+        route: tickets[0].Location.route,
+        departureDate: tickets[0].Location.departureDate,
+        departureTime: tickets[0].Location.departureTime,
+        paymentDate: payment.paymentDate,
+        paymentAmount: payment.paymentAmount,
+        paymentMethod: payment.paymentMethod,
+      });
+
+      console.log(booking);
 
       return { payment, tickets };
     } catch (error) {

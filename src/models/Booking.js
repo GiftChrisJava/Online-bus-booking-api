@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+
       // traveler
       travelerEmail: {
         type: DataTypes.STRING,
@@ -59,5 +60,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return Traveler;
+  return Booking;
 };
