@@ -2,10 +2,9 @@ const { where } = require("sequelize");
 const entities = require("../models");
 const Traveler = entities.Traveler;
 const Ticket = entities.Ticket;
-const Payment = entities.Payment;
+const Booking = entities.Booking;
 const Seat = entities.Seat;
 const Bus = entities.Bus;
-const Location = entities.Location;
 
 // cancel a ticket when traveler is on board
 async function cancelTravelerTicket(ticketNumber) {
@@ -25,6 +24,16 @@ async function cancelTravelerTicket(ticketNumber) {
       { boardBus: true },
       { where: { id: existingTicket.travelerId } }
     );
+
+    const booking = await Booking.findOne({
+      where: { travelerId: existingTicket.travelerId },
+    });
+
+    if (!booking) {
+      return { error: "Payment was not made" };
+    }
+
+    await booking.update({ boardBus: true });
 
     return { msg: "Ticket Removed!!", updatedTraveler };
   } catch (error) {
