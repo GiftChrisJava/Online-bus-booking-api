@@ -3,10 +3,10 @@ const driverService = require("../service/driverService");
 const driverController = {
   //get travelers who paid
   getTravelerPaid: async (req, res) => {
-    const { id } = req.params;
+    const { busId } = req.params;
 
     try {
-      const result = await driverService.getTravellerPaid(id);
+      const result = await driverService.getTravellerPaid(busId);
 
       if (result.error) {
         return res.status(409).json({ error: result.error });
