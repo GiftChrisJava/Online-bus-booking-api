@@ -59,10 +59,12 @@ async function clearSeats(busId, driverId) {
 async function cancelUnpaidTickets(busId, driverId) {
   try {
     // we are talking abou this bus you are driving
-    const existingBus = await Bus.findOne({ where: { id: busId, driverId } });
+    const existingBus = await Bus.findOne({
+      where: { id: busId, driverId, onRoad: true },
+    });
 
     if (!existingBus) {
-      return { error: "Bus Not availabe" };
+      return { error: "Bus Not availabe or Its not on the road" };
     }
 
     // destroy all tickets
