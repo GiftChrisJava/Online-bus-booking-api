@@ -5,6 +5,8 @@ const locationController = require("../controller/locationController");
 const seatController = require("../controller/seatController");
 const adminController = require("../controller/adminController");
 const bookingController = require("../controller/bookingController");
+const busSpecsController = require("../controller/specsController");
+
 const router = express.Router();
 
 // controlling the bus
@@ -14,6 +16,11 @@ router.get("/buses", busController.getBuses);
 router.get("/bus/:id", busController.getBus);
 router.delete("/bus/:id", busController.deleteBus);
 router.put("/bus/:id", busController.updateBus);
+
+// bus specs
+router.put("/specs", busSpecsController.updateBusSpecs);
+router.get("/specs", busSpecsController.getAllBusSpecs);
+router.get("/specs/:busId", busSpecsController.getBusSpecs);
 
 // controlling bus routes
 router.post("/location", locationController.createLocation);
