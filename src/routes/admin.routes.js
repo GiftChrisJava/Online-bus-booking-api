@@ -4,6 +4,7 @@ const adminMiddleware = require("../middleware/AdminMiddleware");
 const locationController = require("../controller/locationController");
 const seatController = require("../controller/seatController");
 const adminController = require("../controller/adminController");
+const bookingController = require("../controller/bookingController");
 const router = express.Router();
 
 // controlling the bus
@@ -34,5 +35,26 @@ router.get("/test/:travelerId", adminController.testThis);
 router.post("/driver", adminController.createBusDriver);
 router.delete("/driver", adminController.deleteDriver);
 router.get("/drivers", adminController.getDrivers);
+
+// booking
+router.get("/history", bookingController.getAllBookingHistory);
+router.get("/history/date", bookingController.getBookingHistoryOnDate);
+router.get(
+  "/history/traveler/email",
+  bookingController.getTravelerBookingHistoryOnEmail
+);
+router.get(
+  "/history/traveler/:travelerId",
+  bookingController.getTravelerBookingHistoryOnTravelerId
+);
+router.get("/history/never", bookingController.getBookingHistoryOffBoard);
+router.get(
+  "/history/institution/email",
+  bookingController.getInstitutionBookingHistory
+);
+router.get(
+  "/history/institution/:institutionId",
+  bookingController.getInstitutionBookingHistoryOnId
+);
 
 module.exports = router;
