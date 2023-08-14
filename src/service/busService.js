@@ -2,6 +2,7 @@ const entities = require("../models");
 const Bus = entities.Bus;
 const Location = entities.Location;
 const Seat = entities.Seat;
+const Specs = entities.Specs;
 
 // create a bus
 async function createBus(busData) {
@@ -19,6 +20,13 @@ async function createBus(busData) {
         busId: bus.id,
       });
     }
+
+    // create bus specifications
+    const specs = await Specs.create({
+      busId: bus.id,
+    });
+
+    console.log(specs);
 
     return { bus };
   } catch (error) {

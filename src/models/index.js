@@ -127,6 +127,7 @@ db.InstitutionAccount = InstitutionAccount;
 db.Location = Location;
 db.Driver = Driver;
 db.Booking = Booking;
+db.Specs = Specs;
 
 // run database
 db.sequelize.sync({ force: false }).then(() => {
