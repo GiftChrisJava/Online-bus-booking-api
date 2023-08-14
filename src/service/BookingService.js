@@ -1,9 +1,5 @@
 const entities = require("../models");
-const Traveler = entities.Traveler;
-const Ticket = entities.Ticket;
 const Booking = entities.Booking;
-const Seat = entities.Seat;
-const Bus = entities.Bus;
 
 // get booking history
 async function getBookingHistory() {
