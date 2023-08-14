@@ -13,6 +13,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
+      //institution
+      institutionEmail: {
+        type: DataTypes.STRING,
+      },
+
+      institutionId: {
+        type: DataTypes.INTEGER,
+      },
+
       // traveler
       travelerEmail: {
         type: DataTypes.STRING,
