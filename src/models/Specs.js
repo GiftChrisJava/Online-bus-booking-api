@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       other: {
         type: DataTypes.STRING,
       },
+      class: {
+        type: DataTypes.STRING,
+        defaultValue: "Standard",
+      },
     },
     {
       timestamps: false,

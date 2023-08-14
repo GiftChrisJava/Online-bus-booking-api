@@ -39,7 +39,7 @@ const InstitutionAccount = require("../models/InstitutionAccount")(
 const Location = require("../models/Location")(sequelize, DataTypes);
 const Driver = require("../models/Driver")(sequelize, DataTypes);
 const Booking = require("../models/Booking")(sequelize, DataTypes);
-
+const Specs = require("../models/Specs")(sequelize, DataTypes);
 // Associations
 
 // a driver can drive multiple buses
@@ -48,6 +48,9 @@ Bus.belongsTo(Driver, { foreignKey: "driverId" });
 
 // A traveller has an account
 Account.belongsTo(Traveler, { foreignKey: "travelerId" });
+
+// a bus some specific cool features
+Specs.belongsTo(Bus, { foreignKey: "busId" });
 
 // admin has an account
 Account.belongsTo(Admin, { onDelete: "CASCADE", foreignKey: "adminId" });
