@@ -11,8 +11,52 @@ const Bus = entities.Bus;
 const Booking = entities.Booking;
 const emailSender = require("../utils/email");
 
-// Initialize an array to store the generated ticket numbers
-const generatedTicketNumbers = [];
+// update institution details
+async function updateInstitution(id, updateData) {
+  try {
+    const institution = await Institution.findByPK(id);
+
+    if (!institution) {
+      return { error: "Institution not found" };
+    }
+
+    await institution.update(updateData);
+
+    return { institution };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// get institution by Id
+async function getInstitutionById(id) {
+  try {
+    const institution = await Institution.findByPK(id);
+
+    if (!institution) {
+      return { error: "Institution not found" };
+    }
+
+    return { institution };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// get institutions
+async function getInstitutions() {
+  try {
+    const institutions = await Institution.findAll(id);
+
+    if (!institutions) {
+      return { error: "Institution not found" };
+    }
+
+    return { institutions };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
 
 // provide group travel information
 async function requestBus(travelPlan) {
@@ -138,4 +182,7 @@ async function processPayment(paymentData, paymentMethodId) {
 module.exports = {
   processPayment,
   requestBus,
+  getInstitutionById,
+  getInstitutions,
+  updateInstitution,
 };

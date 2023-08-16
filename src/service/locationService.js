@@ -88,8 +88,6 @@ async function updateLocation(id, locationDetails) {
       return { error: "location not found" };
     }
 
-    await location.update(locationDetails);
-
     await location.update({
       route:
         locationDetails.sourceLocation +
