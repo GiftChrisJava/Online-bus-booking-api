@@ -3,7 +3,6 @@ const entities = require("../models");
 
 const Traveler = entities.Traveler;
 const Ticket = entities.Ticket;
-const Payment = entities.Payment;
 const Seat = entities.Seat;
 const Bus = entities.Bus;
 const Location = entities.Location;

@@ -64,6 +64,8 @@ Seat.belongsTo(Traveler, { foreignKey: "travelerId" });
 // Traveler.hasOne(Payment);
 Payment.belongsTo(Traveler, { foreignKey: "travelerId" });
 
+Payment.belongsTo(Institution, { foreignKey: "institutionId" });
+
 // ticket needs to have a seatId
 Ticket.belongsTo(Seat, { foreignKey: "seatId" });
 
@@ -76,7 +78,7 @@ Institution.hasMany(GroupTicket, {
   onDelete: "CASCADE",
   foreignKey: "travelerId",
 });
-GroupTicket.belongsTo(Institution, { foreignKey: "travelerId" });
+GroupTicket.belongsTo(Institution, { foreignKey: "institutionId" });
 
 // a ticket belongs to a bus
 Ticket.belongsTo(Bus, { foreignKey: "busId" });

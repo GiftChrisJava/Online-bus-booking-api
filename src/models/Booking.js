@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       institutionId: {
         type: DataTypes.INTEGER,
       },
+      contactOfInstitution: {
+        type: DataTypes.STRING,
+      },
 
       // traveler
       travelerEmail: {
@@ -29,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       travelerContact: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       boardBus: {
         type: DataTypes.BOOLEAN,
@@ -47,7 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       departureTime: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
 
       //payment

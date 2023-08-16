@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
+      amount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
       emailOfInstitution: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -30,6 +34,16 @@ module.exports = (sequelize, DataTypes) => {
       role: {
         type: DataTypes.STRING,
         defaultValue: "traveler",
+      },
+      route: {
+        type: DataTypes.STRING,
+        defaultValue: "",
+      },
+      departureDate: {
+        type: DataTypes.DATE,
+      },
+      busId: {
+        type: DataTypes.INTEGER,
       },
     },
     {
