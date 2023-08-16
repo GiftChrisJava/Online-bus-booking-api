@@ -20,17 +20,18 @@ const driverController = {
 
   // cancel one ticket
   cancelTravelerTicket: async (req, res) => {
-    const { ticketNumber } = req.body;
+    const { ticketNumber, departureDate } = req.body;
     try {
-      const result = await driverService.cancelTravelerTicket(ticketNumber);
+      const result = await driverService.cancelTravelerTicket(
+        ticketNumber,
+        departureDate
+      );
 
       if (result.error) {
         return res.status(409).json({ error: result.error });
       }
 
-      return res
-        .status(200)
-        .json({ msg: result.msg, traveler: result.updatedTraveler });
+      return res.status(200).json({ msg: result.msg, booking: result.booking });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }
@@ -99,6 +100,25 @@ const driverController = {
       }
 
       return res.status(200).json({ msg: result.msg });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // update institution took bus
+  updateInstitutionOnBoard: async (req, res) => {
+    const { groupTicketId, departureDate } = req.body;
+    try {
+      const result = await driverService.updateInstitution(
+        groupTicketId,
+        departureDate
+      );
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ bookings: result.bookings });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

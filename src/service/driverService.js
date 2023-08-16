@@ -5,9 +5,11 @@ const Ticket = entities.Ticket;
 const Booking = entities.Booking;
 const Seat = entities.Seat;
 const Bus = entities.Bus;
+// const Institution = entities.Institution;
+const GroupTicket = entities.GroupTicket;
 
 // cancel a ticket when traveler is on board
-async function cancelTravelerTicket(ticketNumber) {
+async function cancelTravelerTicket(ticketNumber, departureDate) {
   try {
     // find if the ticket exists
     const existingTicket = await Ticket.findOne({ where: { ticketNumber } });
@@ -16,17 +18,8 @@ async function cancelTravelerTicket(ticketNumber) {
       return { error: "Ticket Not availabe" };
     }
 
-    // remove ticket
-    await existingTicket.destroy();
-
-    // confirm that a traveler bought a bus
-    const updatedTraveler = await Traveler.update(
-      { boardBus: true },
-      { where: { id: existingTicket.travelerId } }
-    );
-
     const booking = await Booking.findOne({
-      where: { travelerId: existingTicket.travelerId },
+      where: { travelerId: existingTicket.travelerId, departureDate },
     });
 
     if (!booking) {
@@ -35,7 +28,44 @@ async function cancelTravelerTicket(ticketNumber) {
 
     await booking.update({ boardBus: true });
 
-    return { msg: "Ticket Removed!!", updatedTraveler };
+    // remove ticket
+    await existingTicket.destroy();
+
+    return { msg: "Ticket Removed!!", booking };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
+// update institution ticket
+async function updateInstitution(groupTicketId, departureDate) {
+  try {
+    const id = groupTicketId;
+    const groupTicket = await GroupTicket.findByPk(id);
+
+    if (!groupTicket) {
+      return { error: "Ticket Not availabe" };
+    }
+
+    // find booking
+    const institutionId = groupTicket.institutionId;
+
+    // A problem may arise if you have several travelerId for 1 person
+    const bookings = await Booking.findAll({
+      where: { institutionId, departureDate },
+    });
+
+    if (!bookings) {
+      return { error: "Payment was not made" };
+    }
+
+    bookings.map((booking) => {
+      booking.update({ boardBus: true });
+    });
+
+    // destroy group ticket
+    await groupTicket.destroy();
+    return { bookings };
   } catch (error) {
     throw new Error("something went wrong");
   }
@@ -159,4 +189,5 @@ module.exports = {
   getTravellerPaid,
   setBusOnRoad,
   setBusOffRoad,
+  updateInstitution,
 };
