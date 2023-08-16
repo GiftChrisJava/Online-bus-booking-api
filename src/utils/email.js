@@ -66,6 +66,43 @@ const sendTicketInformation = async (tickets, email) => {
     console.error("Error sending Welcome email : ", error);
   }
 };
+
+// send group ticket info
+const sendGroupTicketInformation = async (
+  groupTicket,
+  emailOfInstitution,
+  bus,
+  institution
+) => {
+  // Format the departure date
+  const departureDateObj = new Date(institution.departureDate);
+  const options = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  };
+  const formattedDepartureDate = departureDateObj.toLocaleDateString(
+    "en-US",
+    options
+  );
+  try {
+    await transporter.sendMail({
+      from: EMAIL,
+      to: emailOfInstitution,
+      subject: "Bus Booking Infomation",
+      text:
+        `You have booked a group ticket for ${groupTicket.groupSize} people\n` +
+        `GroupTicket number Is: ${groupTicket.id}.\n` +
+        `The bus route is: ${institution.route},\n` +
+        `Departure date is: ${formattedDepartureDate},\n` +
+        `Bus company is: ${bus.company},\n` +
+        `Bus number is: ${bus.plateNumber}\n Thank you for choosing SimpSoft Buses`,
+    });
+  } catch (error) {
+    console.error("Error sending Welcome email : ", error);
+  }
+};
 // alert user that the ticket bought has been canceled succesfully.
 const sendCancelationEmail = async (email) => {
   try {
@@ -100,4 +137,5 @@ module.exports = {
   sendMultipleEmails,
   sendCancelationEmail,
   sendTicketInformation,
+  sendGroupTicketInformation,
 };
