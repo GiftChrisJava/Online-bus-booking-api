@@ -1,8 +1,12 @@
 const express = require("express");
-const institutionControler = require("../controller/institutionAccController");
+const institutionAccControler = require("../controller/institutionAccController");
+const InstitutionController = require("../controller/institutionController");
+
 const router = express.Router();
 
-router.post("/register", institutionControler.createInstitutionAccount);
-router.post("/login", institutionControler.institutionLogin);
+router.post("/register", institutionAccControler.createInstitutionAccount);
+router.post("/login", institutionAccControler.institutionLogin);
+router.post("/request-bus", InstitutionController.requestBus);
+router.post("/pay", InstitutionController.processPayment);
 
 module.exports = router;
