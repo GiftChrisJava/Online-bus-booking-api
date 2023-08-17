@@ -123,6 +123,23 @@ const driverController = {
       return res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  // driver has to set update seat
+  updateSeat: async (req, res) => {
+    const { busId, seatNumber } = req.body;
+
+    try {
+      const result = await driverService.updateSeat(busId, seatNumber);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ existingSeat: result.existingSeat });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = driverController;

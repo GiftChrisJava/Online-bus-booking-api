@@ -182,6 +182,23 @@ async function setBusOffRoad(busId) {
   }
 }
 
+// driver has to set update seat
+async function updateSeat(busId, seatNumber) {
+  try {
+    const existingSeat = await Seat.findOne({ where: { busId, seatNumber } });
+
+    if (!existingSeat) {
+      return { error: "Seat Not availabe" };
+    }
+
+    await existingSeat.update({ isAvailable: false });
+
+    return { existingSeat };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 module.exports = {
   cancelTravelerTicket,
   cancelUnpaidTickets,
@@ -190,4 +207,5 @@ module.exports = {
   setBusOnRoad,
   setBusOffRoad,
   updateInstitution,
+  updateSeat,
 };
