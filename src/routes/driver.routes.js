@@ -12,5 +12,6 @@ router.delete("/cancel/unpaid/tickets", driverController.cancelUnpaidTickets);
 router.put("/onRoad/:busId", driverController.updateBusOnRoadTrue);
 router.put("/offRoad/:busId", driverController.updateBusOnRoadFalse);
 router.put("/took-bus", driverController.updateInstitutionOnBoard);
+router.put("/seat", driverController.updateSeat);
 
 module.exports = router;
