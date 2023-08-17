@@ -4,3 +4,5 @@ const travelerMidware = (req, res, next) => {
   }
   next();
 };
+
+module.exports = travelerMidware;

@@ -4,3 +4,5 @@ const AdminMidware = (req, res, next) => {
   }
   next();
 };
+
+module.exports = AdminMidware;

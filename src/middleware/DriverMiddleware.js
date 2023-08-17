@@ -4,3 +4,5 @@ const driverMiddleware = (req, res, next) => {
   }
   next();
 };
+
+module.exports = driverMiddleware;
