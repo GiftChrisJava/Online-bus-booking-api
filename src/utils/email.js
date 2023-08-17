@@ -68,13 +68,16 @@ const sendTicketInformation = async (tickets, email) => {
 };
 
 // send email to admin
-const emailAdmin = async (email, institution) => {
+const emailAdmin = async (groupTicket, bus, institution) => {
   try {
     await transporter.sendMail({
-      from: email,
-      to: EMAIL,
+      from: EMAIL,
+      to: "bed-com-09-19@unima.ac.mw",
       subject: `Bus Request By : ${institution.name}`,
-      text: `${institution}`,
+      text:
+        `Institution : ${institution}\n` +
+        `Bus : ${bus}\n` +
+        `groupTicket : ${groupTicket}`,
     });
   } catch (error) {
     console.error("Error sending Welcome email : ", error);
@@ -115,7 +118,7 @@ const sendGroupTicketInformation = async (
     });
 
     // email an admin
-    emailAdmin(institution, emailOfInstitution);
+    emailAdmin(groupTicket, bus, institution);
   } catch (error) {
     console.error("Error sending Welcome email : ", error);
   }
