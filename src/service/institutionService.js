@@ -1,4 +1,3 @@
-const moment = require("moment/moment");
 const stripe = require("stripe")(
   "sk_test_51NV9VgFgObjlCeyVdynrz3xEvG3d9bG8UtQs7SKomy6mpX2miMsrYhAgGSVixzSma76jNY06sJ1k6S5HhU69rSVw00rFiAG8O3"
 );
