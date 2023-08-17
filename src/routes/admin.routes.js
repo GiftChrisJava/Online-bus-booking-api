@@ -6,6 +6,7 @@ const seatController = require("../controller/seatController");
 const adminController = require("../controller/adminController");
 const bookingController = require("../controller/bookingController");
 const busSpecsController = require("../controller/specsController");
+const InstitutionController = require("../controller/institutionController");
 
 const router = express.Router();
 
@@ -63,5 +64,9 @@ router.get(
   "/history/institution/:institutionId",
   bookingController.getInstitutionBookingHistoryOnId
 );
+
+// institution
+router.get("/institutions", InstitutionController.getInstitutions);
+router.get("/institution/:id", InstitutionController.getInstitutionById);
 
 module.exports = router;
