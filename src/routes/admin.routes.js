@@ -43,6 +43,7 @@ router.get("/test/:travelerId", adminController.testThis);
 router.post("/driver", adminController.createBusDriver);
 router.delete("/driver", adminController.deleteDriver);
 router.get("/drivers", adminController.getDrivers);
+router.put("/driver/:driverId/:busId", adminController.assignDriverAbus);
 
 // booking
 router.get("/history", bookingController.getAllBookingHistory);
