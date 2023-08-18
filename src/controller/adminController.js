@@ -91,12 +91,25 @@ const adminController = {
     }
   },
 
+  // not relevant
   testThis: async (req, res) => {
     const { travelerId } = req.params;
     try {
       const result = await AdminService.testThis(travelerId);
 
       return res.status(200).json({ tickets: result.tickets });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // assign driver a bus
+  assignDriverAbus: async (req, res) => {
+    const { driverId, busId } = req.params;
+    try {
+      const result = await AdminService.assignDriverAbus(driverId, busId);
+
+      return res.status(200).json({ updatedBus: result.existingBus });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

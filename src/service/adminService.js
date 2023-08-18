@@ -148,7 +148,32 @@ async function getDrivers() {
   }
 }
 
+// assign driver a bus
+async function assignDriverAbus(driverId, busId) {
+  try {
+    const existingDriver = await Driver.findByPk({ id: driverId });
+
+    if (existingDriver) {
+      return { error: "Driver Not found" };
+    }
+
+    const existingBus = await Driver.findByPk({ id: busId });
+
+    if (existingBus) {
+      return { error: "Bus not found" };
+    }
+
+    // include driver ID on the bus
+    await existingBus.update({ driverId });
+
+    return { existingBus };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 module.exports = {
+  assignDriverAbus,
   getTravelersWithPayments,
   getTravelersWithoutPayments,
   cancelBooking,
