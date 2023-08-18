@@ -19,7 +19,7 @@ router.delete("/bus/:id", busController.deleteBus);
 router.put("/bus/:id", busController.updateBus);
 
 // bus specs
-router.put("/specs", busSpecsController.updateBusSpecs);
+router.put("/specs/:busId", busSpecsController.updateBusSpecs);
 router.get("/specs", busSpecsController.getAllBusSpecs);
 router.get("/specs/:busId", busSpecsController.getBusSpecs);
 
@@ -44,6 +44,7 @@ router.post("/driver", adminController.createBusDriver);
 router.delete("/driver", adminController.deleteDriver);
 router.get("/drivers", adminController.getDrivers);
 router.put("/driver/:driverId/:busId", adminController.assignDriverAbus);
+router.get("/driver/:id", adminController.getDriver);
 
 // booking
 router.get("/history", bookingController.getAllBookingHistory);

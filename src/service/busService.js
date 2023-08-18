@@ -71,14 +71,21 @@ async function deleteBus(id) {
 
 // get a bus by Id
 async function getBus(id) {
+  console.log(id);
   try {
-    const bus = await Bus.findByPk(id);
+    const bus = await Bus.findOne({
+      where: { id },
+      include: [{ model: Specs }, { model: Location }],
+    });
+    // find a location with the specified bus Id
 
     if (!bus) {
       return { error: "Bus not found" };
     }
 
-    return { bus };
+    const specs = await Specs.findOne({ where: { busId: id } });
+
+    return { bus, specs };
   } catch (error) {
     throw new Error("Something went wrong");
   }

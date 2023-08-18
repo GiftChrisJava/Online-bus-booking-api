@@ -4,7 +4,7 @@ const Specs = entities.Specs;
 // update bus specs
 async function updateBusSpecs(busId, busSpecs) {
   try {
-    const specs = await Specs.findOne({ where: busId });
+    const specs = await Specs.findOne({ where: { busId } });
 
     if (!specs) {
       return { error: "Bus has not specifications" };
@@ -22,7 +22,7 @@ async function updateBusSpecs(busId, busSpecs) {
 // get bus specs using busId
 async function getBusSpecs(busId) {
   try {
-    const specs = await Specs.findOne({ where: busId });
+    const specs = await Specs.findOne({ where: { busId } });
 
     if (!specs) {
       return { error: "Bus has not specifications" };

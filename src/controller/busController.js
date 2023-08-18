@@ -62,7 +62,7 @@ const busController = {
         return res.status(409).json({ error: result.error });
       }
 
-      return res.status(200).json({ bus: result.bus });
+      return res.status(200).json({ bus: result.bus, specs: result.specs });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

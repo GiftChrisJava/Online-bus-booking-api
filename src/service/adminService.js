@@ -100,6 +100,23 @@ async function deleteDriver(id) {
   }
 }
 
+async function getDriver(id) {
+  try {
+    const existingDriver = await Driver.findOne({
+      where: { id },
+      include: [{ model: entities.Bus }],
+    });
+
+    if (!existingDriver) {
+      return { error: "Driver not found" };
+    }
+
+    return { driver: existingDriver };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
 async function testThis(travelerId) {
   try {
     const tickets = await Ticket.findAll({
@@ -151,15 +168,15 @@ async function getDrivers() {
 // assign driver a bus
 async function assignDriverAbus(driverId, busId) {
   try {
-    const existingDriver = await Driver.findByPk({ id: driverId });
+    const existingDriver = await Driver.findOne({ where: { id: driverId } });
 
-    if (existingDriver) {
+    if (!existingDriver) {
       return { error: "Driver Not found" };
     }
 
-    const existingBus = await Driver.findByPk({ id: busId });
+    const existingBus = await entities.Bus.findOne({ where: { id: busId } });
 
-    if (existingBus) {
+    if (!existingBus) {
       return { error: "Bus not found" };
     }
 
@@ -181,4 +198,5 @@ module.exports = {
   createBusDriver,
   deleteDriver,
   getDrivers,
+  getDriver,
 };
