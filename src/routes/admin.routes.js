@@ -8,6 +8,7 @@ const bookingController = require("../controller/bookingController");
 const busSpecsController = require("../controller/specsController");
 const InstitutionController = require("../controller/institutionController");
 const travelerController = require("../controller/travelerController");
+const institutionAccController = require("../controller/institutionAccController");
 
 const router = express.Router();
 
@@ -79,6 +80,14 @@ router.get("/travelers/no-acc", travelerController.getTravelersHasNoAccount);
 router.delete(
   "/traveler/:travelerId",
   travelerController.removeTravelerNoAccount
+);
+
+// institution accout
+router.get("/institution-accounts", institutionAccController.getInstitutions);
+router.delete("/institution-account", institutionAccController.removeAccount);
+router.get(
+  "/institution-account",
+  institutionAccController.getInstitutionByEmail
 );
 
 module.exports = router;
