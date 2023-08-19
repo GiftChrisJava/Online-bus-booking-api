@@ -7,6 +7,7 @@ const adminController = require("../controller/adminController");
 const bookingController = require("../controller/bookingController");
 const busSpecsController = require("../controller/specsController");
 const InstitutionController = require("../controller/institutionController");
+const travelerController = require("../controller/travelerController");
 
 const router = express.Router();
 
@@ -41,7 +42,7 @@ router.get("/test/:travelerId", adminController.testThis);
 
 // driver
 router.post("/driver", adminController.createBusDriver);
-router.delete("/driver", adminController.deleteDriver);
+router.delete("/driver/:id", adminController.deleteDriver);
 router.get("/drivers", adminController.getDrivers);
 router.put("/driver/:driverId/:busId", adminController.assignDriverAbus);
 router.get("/driver/:id", adminController.getDriver);
@@ -70,5 +71,14 @@ router.get(
 // institution
 router.get("/institutions", InstitutionController.getInstitutions);
 router.get("/institution/:id", InstitutionController.getInstitutionById);
+
+// traveler
+router.get("/travelers", travelerController.getTravelers);
+router.get("/travelers/acc", travelerController.getTravelersHasAccount);
+router.get("/travelers/no-acc", travelerController.getTravelersHasNoAccount);
+router.delete(
+  "/traveler/:travelerId",
+  travelerController.removeTravelerNoAccount
+);
 
 module.exports = router;

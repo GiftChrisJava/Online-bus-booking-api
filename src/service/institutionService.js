@@ -30,7 +30,7 @@ async function updateInstitution(id, updateData) {
 // get institution by Id
 async function getInstitutionById(id) {
   try {
-    const institution = await Institution.findByPK(id);
+    const institution = await Institution.findByPk(id);
 
     if (!institution) {
       return { error: "Institution not found" };
@@ -45,11 +45,7 @@ async function getInstitutionById(id) {
 // get institutions
 async function getInstitutions() {
   try {
-    const institutions = await Institution.findAll(id);
-
-    if (!institutions) {
-      return { error: "Institution not found" };
-    }
+    const institutions = await Institution.findAll();
 
     return { institutions };
   } catch (error) {

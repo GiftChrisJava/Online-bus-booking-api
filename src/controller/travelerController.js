@@ -78,6 +78,68 @@ const travelerController = {
       return res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  // get all travellers
+  getTravelers: async (req, res) => {
+    try {
+      const result = await TravelerService.getTravelers();
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ travelers: result.travelers });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // get all travellers with account
+  getTravelersHasAccount: async (req, res) => {
+    try {
+      const result = await TravelerService.getTravelersHasAccount();
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ travelers: result.travelers });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // get all travellers without account
+  getTravelersHasNoAccount: async (req, res) => {
+    try {
+      const result = await TravelerService.getTravelersHasNoAccount();
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ travelers: result.travelers });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // delete a traveler without account
+  removeTravelerNoAccount: async (req, res) => {
+    const { travelerId } = req.params;
+
+    try {
+      const result = await TravelerService.removeTravelerNoAccount(travelerId);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = travelerController;

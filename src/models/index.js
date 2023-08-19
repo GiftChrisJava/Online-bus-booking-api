@@ -50,7 +50,7 @@ Bus.belongsTo(Driver, { foreignKey: "driverId" });
 Account.belongsTo(Traveler, { foreignKey: "travelerId" });
 
 // a bus has many specs
-Bus.hasMany(Specs, { foreignKey: "driverId" });
+Bus.hasMany(Specs, { foreignKey: "busId" });
 Specs.belongsTo(Bus, { onDelete: "CASCADE", foreignKey: "busId" });
 
 // admin has an account

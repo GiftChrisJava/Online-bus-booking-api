@@ -88,7 +88,7 @@ async function deleteDriver(id) {
   try {
     const existingDriver = await Driver.findByPk(id);
 
-    if (existingDriver) {
+    if (!existingDriver) {
       return { error: "Driver with these credentials already exists" };
     }
 

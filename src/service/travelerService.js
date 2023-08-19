@@ -197,9 +197,66 @@ async function cancelBooking(email) {
   }
 }
 
+// get all travellers
+async function getTravelers() {
+  try {
+    const travelers = await Traveler.findAll();
+
+    return { travelers };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// get all travellers with account
+async function getTravelersHasAccount() {
+  try {
+    const travelers = await Traveler.findAll({ where: { hasAccount: true } });
+
+    return { travelers };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// get all travellers without account
+async function getTravelersHasNoAccount() {
+  try {
+    const travelers = await Traveler.findAll({ where: { hasAccount: false } });
+
+    return { travelers };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// delete a traveler without account
+async function removeTravelerNoAccount(id) {
+  try {
+    const traveler = await Traveler.findOne({
+      where: { id, hasAccount: false },
+    });
+
+    if (!traveler) {
+      return { error: "Traveler not found." };
+    }
+
+    // remove
+    await Traveler.destroy();
+
+    return { msg: "Traveler removed" };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
 module.exports = {
   searchBus,
   bookTicket,
   createTraveler,
   cancelBooking,
+  getTravelers,
+  getTravelersHasAccount,
+  getTravelersHasNoAccount,
+  removeTravelerNoAccount,
 };
