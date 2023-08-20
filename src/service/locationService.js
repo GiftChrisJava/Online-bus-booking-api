@@ -15,7 +15,6 @@ async function createLocation(routeData) {
   let route = "";
   let busId = routeData.busId;
 
-  departureDate = moment(departureDate, "DD/MM/YY").format("YYYY-MM-DD");
   departureTime = moment(departureTime, "HH:mm").format("HH:mm");
 
   try {

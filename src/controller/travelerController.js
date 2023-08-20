@@ -24,9 +24,9 @@ const travelerController = {
 
   // search for a bus
   searchBus: async (req, res) => {
-    try {
-      const result = await TravelerService.searchBus(req.body);
+    const result = await TravelerService.searchBus(req.body);
 
+    try {
       if (result.error) {
         return res.status(409).json({ error: result.error });
       }

@@ -9,5 +9,6 @@ router.post("/login", institutionAccControler.institutionLogin);
 router.post("/request-bus", InstitutionController.requestBus);
 router.post("/pay", InstitutionController.processPayment);
 router.put("/update", institutionAccControler.updateAccount);
+router.delete("/remove", institutionAccControler.removeAccount);
 
 module.exports = router;

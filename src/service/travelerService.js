@@ -17,51 +17,41 @@ async function searchBus(locationData) {
   const sourceLocation = locationData.sourceLocation;
   const departureDate = locationData.departureDate;
 
-  // function to calculate time difference in hours
-  function calculateTimeDifference(departureTime) {
-    const departure = moment(departureTime, "HH:mm");
-    return departure.diff(moment.now, "hours");
-  }
-
-  const locations = await Location.findAll({
-    where: {
-      destinationLocation,
-      sourceLocation,
-      departureDate,
-    },
-  });
-
-  const currentTime = moment(); // Get the current time
-  console.log(currentTime);
-
-  const buses = [];
-
-  for (let i = 0; i < locations.length; i++) {
-    const id = locations[i].busId;
-
-    const bus = await Bus.findOne({
-      where: { id, onRoad: false },
-      include: [
-        {
-          model: Location,
-          attributes: ["route", "departureTime", "departureDate"],
-        },
-      ],
+  try {
+    const locations = await Location.findAll({
+      where: {
+        destinationLocation: destinationLocation,
+        sourceLocation: sourceLocation,
+        departureDate: departureDate,
+      },
     });
 
-    const timeDifference = calculateTimeDifference(bus.Location.departureTime);
+    const buses = [];
 
-    // check if the time difference between depature time and current time is 2hrs
-    if (timeDifference >= 2) {
+    for (let i = 0; i < locations.length; i++) {
+      const id = locations[i].busId;
+
+      const bus = await Bus.findOne({
+        where: { id: id, onRoad: false },
+        include: [
+          {
+            model: Location,
+            attributes: ["route", "departureTime", "departureDate"],
+          },
+        ],
+      });
+
       buses.push(bus);
     }
-  }
 
-  if (!buses) {
-    return { error: "Bus to the specified location not found" };
-  }
+    if (!buses) {
+      return { error: "Bus to the specified location not found" };
+    }
 
-  return { buses };
+    return { buses };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
 }
 
 const generateTicketNumber = () => {
@@ -150,7 +140,7 @@ async function createTraveler(email, contact, firstName, lastName) {
       });
 
       // send a welcoming email
-      await emailSender.sendWelcomeEmail(travelerAccount.email);
+      await emailSender.sendWelcomeEmail(traveler.email);
 
       return { traveler };
     }
