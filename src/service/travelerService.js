@@ -141,7 +141,7 @@ async function bookTicket(travelerId, busId, seatNumber) {
       return { error: "Seat already taken." };
     }
 
-    return { message: "Ticket booked successfully.", ticket, availableSeat };
+    return { message: "success!!.", ticket, availableSeat };
   } catch (error) {
     throw new Error("something went wrong");
   }

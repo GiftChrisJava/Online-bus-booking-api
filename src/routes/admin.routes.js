@@ -32,6 +32,7 @@ router.delete("/location/:id", locationController.deleteBusRoute);
 router.get("/routes", locationController.getBusRoutes);
 router.get("/locations", locationController.getBusLocations);
 router.put("/location/:id", locationController.updateLocation);
+
 // seats
 router.get("/seats/:busId", seatController.getBusSeats);
 
