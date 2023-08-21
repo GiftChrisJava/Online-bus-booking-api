@@ -27,11 +27,11 @@ router.get("/specs/:busId", busSpecsController.getBusSpecs);
 
 // controlling bus routes
 router.post("/location", locationController.createLocation);
-router.put("/location/:id", locationController.updateBusRoute);
+router.put("/route/:id", locationController.updateBusRoute);
 router.delete("/location/:id", locationController.deleteBusRoute);
 router.get("/routes", locationController.getBusRoutes);
 router.get("/locations", locationController.getBusLocations);
-
+router.put("/location/:id", locationController.updateLocation);
 // seats
 router.get("/seats/:busId", seatController.getBusSeats);
 

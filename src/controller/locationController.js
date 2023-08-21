@@ -21,6 +21,23 @@ const locationController = {
     const { id } = req.params;
 
     try {
+      const result = await LocationService.updateRoute(id, req.body);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ location: result.location });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  // update location
+  updateLocation: async (req, res) => {
+    const { id } = req.params;
+
+    try {
       const result = await LocationService.updateLocation(id, req.body);
 
       if (result.error) {

@@ -1,4 +1,3 @@
-const moment = require("moment/moment");
 const entities = require("../models");
 
 const Traveler = entities.Traveler;
@@ -10,6 +9,26 @@ const emailSender = require("../utils/email");
 
 // Initialize an array to store the generated ticket numbers
 const generatedTicketNumbers = [];
+
+function calculateTimeDifference(departureTime) {
+  const now = new Date();
+  const [hours, minutes] = departureTime.split(":");
+  const departure = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hours,
+    minutes
+  );
+
+  console.log("now " + now);
+  console.log("depart " + departure);
+
+  const timeDifferenceInMilliseconds = departure - now;
+  const timeDifferenceInHours = timeDifferenceInMilliseconds / (1000 * 60 * 60);
+
+  return timeDifferenceInHours;
+}
 
 // traver has to search for a bus
 async function searchBus(locationData) {
@@ -41,7 +60,15 @@ async function searchBus(locationData) {
         ],
       });
 
-      buses.push(bus);
+      const timeDifference = calculateTimeDifference(
+        locations[i].departureTime
+      );
+      console.log("Diff " + timeDifference);
+
+      // include buses who have 2hrs or more before departure
+      if (timeDifference >= 2) {
+        buses.push(bus);
+      }
     }
 
     if (!buses) {

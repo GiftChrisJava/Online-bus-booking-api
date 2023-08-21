@@ -1,5 +1,4 @@
 const entities = require("../models");
-const moment = require("moment");
 const Location = entities.Location;
 const Bus = entities.Bus;
 
@@ -14,8 +13,6 @@ async function createLocation(routeData) {
   let cost = routeData.cost;
   let route = "";
   let busId = routeData.busId;
-
-  departureTime = moment(departureTime, "HH:mm").format("HH:mm");
 
   try {
     // check if details exist already exist
@@ -79,7 +76,7 @@ async function getBusRoutes() {
 }
 
 // update bus route and cost
-async function updateLocation(id, locationDetails) {
+async function updateRoute(id, locationDetails) {
   try {
     const location = await Location.findByPk(id);
 
@@ -95,6 +92,23 @@ async function updateLocation(id, locationDetails) {
         " through " +
         locationDetails.through,
     });
+
+    return { location };
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+// update location
+async function updateLocation(id, locationDetails) {
+  try {
+    const location = await Location.findByPk(id);
+
+    if (!location) {
+      return { error: "location not found" };
+    }
+
+    await location.update(locationDetails);
 
     return { location };
   } catch (error) {
@@ -137,4 +151,5 @@ module.exports = {
   getBusRoutes,
   getLocations,
   deleteLocation,
+  updateRoute,
 };
