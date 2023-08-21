@@ -4,7 +4,7 @@ const authConfig = require("../config/authConfig");
 const entities = require("../models");
 
 const InstitutionAccount = entities.InstitutionAccount;
-// const Institution = entities.Institution;
+const Institution = entities.Institution;
 
 // token generator
 function generateToken(institution) {
@@ -101,8 +101,15 @@ async function updateAccount(id, updateData) {
       return { error: "Account does not exist" };
     }
 
+    let emailOfInstitution = institutionAccount.emailOfInstitution;
+
+    const institution = await Institution.findOne({
+      where: { emailOfInstitution },
+    });
+
     // update
     await institutionAccount.update(updateData);
+    await institution.update(updateData);
 
     return { institutionAccount: institutionAccount };
   } catch (error) {
@@ -121,8 +128,13 @@ async function removeAccount(emailOfInstitution) {
       return { error: "email not found. Account does not exist" };
     }
 
+    const institution = await Institution.findOne({
+      where: { emailOfInstitution },
+    });
+
     // remove
     await institutionAccount.destroy();
+    await institution.destroy();
 
     return { msg: "account removed" };
   } catch (error) {

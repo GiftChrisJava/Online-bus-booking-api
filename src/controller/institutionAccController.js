@@ -117,7 +117,7 @@ const institutionControler = {
 
   // update account
   updateAccount: async (req, res) => {
-    const { updateData } = req.body;
+    const updateData = req.body;
     const { id } = req.params;
 
     try {

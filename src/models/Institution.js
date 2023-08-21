@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "",
       },
       departureDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
       busId: {
         type: DataTypes.INTEGER,

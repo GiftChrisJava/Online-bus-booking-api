@@ -87,7 +87,7 @@ async function requestBus(travelPlan) {
       where: { busId, departureDate },
     });
 
-    if (sameBusDate) {
+    if (sameBusDate.length > 0) {
       return { error: "Bus already taken. Choose another bus or date" };
     }
 
