@@ -68,17 +68,30 @@ const sendTicketInformation = async (tickets, email) => {
 };
 
 // send email to admin
-const emailAdmin = async (groupTicket, bus, institution) => {
+const emailAdmin = async (email) => {
   try {
     await transporter.sendMail({
       from: EMAIL,
       to: "bed-com-09-19@unima.ac.mw",
-      subject: `Bus Request By : ${institution.name}`,
-      text:
-        `Institution : ${institution}\n` +
-        `Bus : ${bus}\n` +
-        `groupTicket : ${groupTicket}`,
+      subject: `Bus Request By : ${email}`,
+      text: "A request to book a group ticket \n" + email,
     });
+  } catch (error) {
+    console.error("Error sending Welcome email : ", error);
+  }
+};
+
+// send an email to a company
+const sendCompanyWelcomeEmail = async (email) => {
+  try {
+    await transporter.sendMail({
+      from: EMAIL,
+      to: email,
+      subject: "Thank you for choosing Simpoft Bus booking System",
+      text: "Your request for a bus has been received. We will send you an email in less than 3 hrs. Information about the ticket you have booked will be sent to this email. Thank you for choosing us",
+    });
+
+    emailAdmin(email);
   } catch (error) {
     console.error("Error sending Welcome email : ", error);
   }
@@ -116,9 +129,6 @@ const sendGroupTicketInformation = async (
         `Bus company is: ${bus.company},\n` +
         `Bus number is: ${bus.plateNumber}\n Thank you for choosing SimpSoft Buses`,
     });
-
-    // email an admin
-    emailAdmin(groupTicket, bus, institution);
   } catch (error) {
     console.error("Error sending Welcome email : ", error);
   }
@@ -158,4 +168,5 @@ module.exports = {
   sendCancelationEmail,
   sendTicketInformation,
   sendGroupTicketInformation,
+  sendCompanyWelcomeEmail,
 };

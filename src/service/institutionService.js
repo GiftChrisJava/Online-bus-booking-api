@@ -74,11 +74,21 @@ async function requestBus(travelPlan) {
       return { error: "email not found. Account does not exist" };
     }
 
+    const id = busId;
     // find bus
-    const bus = await Bus.finfByPk({ id: busId });
+    const bus = await Bus.findByPk(id);
 
     if (!bus) {
       return { error: "Bus not found." };
+    }
+
+    // find if there is any instititution with the same bus Id and date
+    const sameBusDate = await Institution.findAll({
+      where: { busId, departureDate },
+    });
+
+    if (sameBusDate) {
+      return { error: "Bus already taken. Choose another bus or date" };
     }
 
     if (numberOfPeople <= bus.capacity) {
@@ -87,6 +97,9 @@ async function requestBus(travelPlan) {
     } else {
       return { error: "Number of people entered is more than bus capacity" };
     }
+
+    // send email
+    emailSender.sendCompanyWelcomeEmail(emailOfInstitution);
 
     return {
       msg: "Thank You so much we will send you an email in less than 3 hrs",

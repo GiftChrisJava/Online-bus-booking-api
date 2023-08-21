@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/account", accountRoutes);
-app.use("/institutionAcc", institutionAccountRoutes);
+app.use("/institution", institutionAccountRoutes);
 app.use("/admin", adminRoutes);
 app.use("/traveler", traverRoutes);
 app.use("/driver", driverRoutes);
