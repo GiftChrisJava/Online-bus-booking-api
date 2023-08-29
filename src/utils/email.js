@@ -51,7 +51,8 @@ const sendTicketInformation = async (tickets, email) => {
   try {
     await transporter.sendMail({
       from: EMAIL,
-      to: email,
+      //to: email,
+	to : "bed-com-09-19@unima.ac.mw",
       subject: "Bus Booking Infomation",
       text:
         `You have booked ${tickets.length} tickets:\n` +

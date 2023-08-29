@@ -56,6 +56,7 @@ router.get(
   "/history/traveler/email",
   bookingController.getTravelerBookingHistoryOnEmail
 );
+router.get("/history/company", bookingController.getCompanyBookingHistory);
 router.get(
   "/history/traveler/:travelerId",
   bookingController.getTravelerBookingHistoryOnTravelerId

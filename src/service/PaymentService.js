@@ -103,15 +103,13 @@ const PaymentService = {
       busId: busId,
       travelerEmail: traveler.email,
       travelerContact: traveler.contact,
-      route: tickets[0].Location.route,
-      departureDate: tickets[0].Location.departureDate,
-      departureTime: tickets[0].Location.departureTime,
+      route: tickets[0].bus.locations[0].route,
+      departureDate: tickets[0].bus.locations[0].departureDate,
+      departureTime: tickets[0].bus.locations[0].departureTime,
       paymentDate: payment.paymentDate,
       paymentAmount: payment.paymentAmount,
       paymentMethod: payment.paymentMethod,
     });
-
-    console.log(booking);
 
     return { payment, tickets };
   },

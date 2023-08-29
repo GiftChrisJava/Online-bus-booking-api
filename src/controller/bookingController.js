@@ -118,6 +118,22 @@ const bookingController = {
       return res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  // get traveler booking history of a company
+  getCompanyBookingHistory: async (req, res) => {
+    const { company } = req.body;
+    try {
+      const result = await bookingService.getCompanyBookingHistory(company);
+
+      if (result.error) {
+        return res.status(409).json({ error: result.error });
+      }
+
+      return res.status(200).json({ bookings: result.bookings });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 
 module.exports = bookingController;

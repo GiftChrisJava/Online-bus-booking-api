@@ -1,5 +1,6 @@
 const entities = require("../models");
 const Booking = entities.Booking;
+const Bus = entities.Bus;
 
 // get booking history
 async function getBookingHistory() {
@@ -31,6 +32,31 @@ async function getTravelerBookingHistoryOnEmail(email) {
     });
 
     return { bookingHistory };
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+}
+
+// get traveler booking history for a particular company
+async function getCompanyBookingHistory(company) {
+  try {
+    const buses = await Bus.findAll({
+      where: { company: company },
+    });
+
+    const bookings = [];
+
+    for (const bus of buses) {
+      const booking = await Booking.findAll({ where: { busId: bus.id } });
+
+      console.log(booking);
+
+      if (booking) {
+        bookings.push(booking);
+      }
+    }
+
+    return { bookings };
   } catch (error) {
     throw new Error("something went wrong");
   }
@@ -96,4 +122,5 @@ module.exports = {
   getBookingHistoryOffBoard,
   getInstitutionBookingHistory,
   getInstitutionBookingHistoryOnId,
+  getCompanyBookingHistory,
 };
