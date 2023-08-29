@@ -70,9 +70,8 @@ const InstitutionController = {
 
   // process payment and create booking history
   processPayment: async (req, res) => {
+    const { paymentData, paymentMethodId } = req.body;
     try {
-      const { paymentData, paymentMethodId } = req.body;
-
       const result = await institutionService.processPayment(
         paymentData,
         paymentMethodId

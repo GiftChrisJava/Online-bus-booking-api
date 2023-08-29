@@ -73,7 +73,7 @@ const emailAdmin = async (email) => {
   try {
     await transporter.sendMail({
       from: EMAIL,
-      to: "bed-com-09-19@unima.ac.mw",
+      to: "chrisjava77@gmail.com",
       subject: `Bus Request By : ${email}`,
       text: "A request to book a group ticket \n" + email,
     });
@@ -87,8 +87,7 @@ const sendCompanyWelcomeEmail = async (email) => {
   try {
     await transporter.sendMail({
       from: EMAIL,
-      //to: email,
-      to: "chrisjava77@gmail.com",
+      to: email,
       subject: "Thank you for choosing Simpoft Bus booking System",
       text: "Your request for a bus has been received. We will send you an email in less than 3 hrs. Information about the ticket you have booked will be sent to this email. Thank you for choosing us",
     });
@@ -121,9 +120,7 @@ const sendGroupTicketInformation = async (
   try {
     await transporter.sendMail({
       from: EMAIL,
-      // to: emailOfInstitution,
-      to: "chrisjava77@gmail.com",
-
+      to: emailOfInstitution,
       subject: "Bus Booking Infomation",
       text:
         `You have booked a group ticket for ${groupTicket.groupSize} people\n` +

@@ -126,7 +126,7 @@ async function processPayment(paymentData, paymentMethodId) {
 
     const busId = institution.busId;
 
-    const bus = await Bus.findByPK({ where: { id: busId } });
+    const bus = await Bus.findOne({ where: { id: busId } });
 
     // Create a Stripe payment intent
     const paymentIntent = await stripe.paymentIntents.create({
