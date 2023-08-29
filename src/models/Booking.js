@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       travelerId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       busId: {
         type: DataTypes.INTEGER,
