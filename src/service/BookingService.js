@@ -49,8 +49,6 @@ async function getCompanyBookingHistory(company) {
     for (const bus of buses) {
       const booking = await Booking.findAll({ where: { busId: bus.id } });
 
-      console.log(booking);
-
       if (booking) {
         bookings.push(booking);
       }
